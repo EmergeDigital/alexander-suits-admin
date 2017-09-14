@@ -1,2 +1,29 @@
 
 @import 'theme.scss';
+@import 'colours.scss';
+
+.centered {
+  text-align: center;
+}
+
+.unselectable{
+	user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+.showOnMobile {
+  display: none;
+}
+
+.mat-toolbar {
+  height: 69px;
+}
+
+
+.mat-toolbar.mat-primary {
+  background: $c-grey !important;
+  border-bottom: 5px solid $c-main;
+}

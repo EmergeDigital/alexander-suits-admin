@@ -13,10 +13,14 @@ import {DataService} from "./services/data.service";
 
 //Import all material.io components here
 import {MdButtonModule, MdCheckboxModule} from '@angular/material';
+import {MdMenuModule} from '@angular/material';
+import {MdToolbarModule} from '@angular/material';
+import {MdSidenavModule} from '@angular/material';
+import {MdIconModule} from '@angular/material';
 
 @NgModule({
-  imports: [MdButtonModule, MdCheckboxModule],
-  exports: [MdButtonModule, MdCheckboxModule],
+  imports: [MdButtonModule, MdCheckboxModule, MdSidenavModule, MdToolbarModule, MdIconModule],
+  exports: [MdButtonModule, MdCheckboxModule, MdSidenavModule, MdToolbarModule, MdIconModule],
 })
 export class MaterialComponents { }
 

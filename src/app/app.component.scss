@@ -1,0 +1,29 @@
+html, body, material-app, md-sidenav-container, .my-content {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+.my-sidenav {
+  padding: 20px;
+}
+
+.navbar-icon {
+  z-index: 5;
+}
+
+.alex-navbar-inner{
+  width: 100%;
+  position: relative;
+}
+
+.alex-navbar-button{
+  text-align: center;
+  padding-top: 5px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 4;
+}

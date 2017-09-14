@@ -1,2 +1,28 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<router-outlet></router-outlet>
+
+<md-sidenav-container>
+  <md-sidenav mode="side" #sidenav class="my-sidenav" opened="true">SIDENAV HERE</md-sidenav>
+
+  <div class="my-content">
+    <md-toolbar color="primary" class="unselectable">
+      <div class="alex-navbar-inner">
+        <button md-icon-button class="navbar-icon" (click)="sidenav.toggle()">
+           <md-icon>more_vert</md-icon>
+        </button>
+        <div class="alex-navbar-button">
+          <button md-button style="centered">ALEXANDER SUITS ADMIN</button>
+        </div>
+      </div>
+    </md-toolbar>
+    <div class="nav-padder">
+        <router-outlet>
+
+        </router-outlet>
+    </div>
+    <!-- <app-footer [appTitle]=app_name>
+
+    </app-footer> -->
+  </div>
+
+</md-sidenav-container>
+<!-- <ng2-toasty></ng2-toasty> -->
