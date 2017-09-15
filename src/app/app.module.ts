@@ -12,23 +12,16 @@ import {LoginComponent} from './pages/login/login.component';
 import {DataService} from "./services/data.service";
 
 //Import all material.io components here
-import {MdButtonModule, MdCheckboxModule} from '@angular/material';
-import {MdMenuModule} from '@angular/material';
-import {MdToolbarModule} from '@angular/material';
-import {MdSidenavModule} from '@angular/material';
-import {MdIconModule} from '@angular/material';
+import {MaterialComponents} from './material.module';
 
-@NgModule({
-  imports: [MdButtonModule, MdCheckboxModule, MdSidenavModule, MdToolbarModule, MdIconModule],
-  exports: [MdButtonModule, MdCheckboxModule, MdSidenavModule, MdToolbarModule, MdIconModule],
-})
-export class MaterialComponents { }
+import { SidenavComponent } from './partials/sidenav/sidenav.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
-        LoginComponent
+        LoginComponent,
+        SidenavComponent
     ],
     imports: [
         BrowserModule,

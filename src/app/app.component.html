@@ -1,19 +1,20 @@
 <!--The content below is only a placeholder and can be replaced.-->
-
+<md-toolbar color="primary" class="unselectable">
+  <div class="alex-navbar-inner">
+    <button md-icon-button class="navbar-icon" (click)="sidenav.toggle()">
+       <md-icon>menu</md-icon>
+    </button>
+    <div class="alex-navbar-button">
+      <button md-button style="centered">ALEXANDER SUITS ADMIN</button>
+    </div>
+  </div>
+</md-toolbar>
 <md-sidenav-container>
-  <md-sidenav mode="side" #sidenav class="my-sidenav" opened="true">SIDENAV HERE</md-sidenav>
+  <md-sidenav mode="side" #sidenav class="my-sidenav" opened="true"><app-sidenav></app-sidenav>
+  </md-sidenav>
 
   <div class="my-content">
-    <md-toolbar color="primary" class="unselectable">
-      <div class="alex-navbar-inner">
-        <button md-icon-button class="navbar-icon" (click)="sidenav.toggle()">
-           <md-icon>more_vert</md-icon>
-        </button>
-        <div class="alex-navbar-button">
-          <button md-button style="centered">ALEXANDER SUITS ADMIN</button>
-        </div>
-      </div>
-    </md-toolbar>
+
     <div class="nav-padder">
         <router-outlet>
 
