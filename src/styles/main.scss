@@ -1,6 +1,27 @@
-
-@import 'theme.scss';
+@import url('https://fonts.googleapis.com/css?family=Lato');
+// @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 @import 'colours.scss';
+@import 'theme.scss';
+
+$c-accent: #a28750;
+$c-main: #830024;
+$c-grey-lite: #919191;
+$c-grey: #232323;
+
+/*@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";*/
+//
+// @import "~owl.carousel/dist/assets/owl.carousel.css";
+// @import "~owl.carousel/dist/assets/owl.theme.default.css";
+@import "~ng2-toasty/style-material.css";
+
+html, body {
+  margin: 0px;
+}
+
+h1, h2, h3, h4, h5, h6, p, span {
+  font-family: 'Lato', sans-serif;
+  // font-family: 'Roboto Condensed', sans-serif;
+}
 
 .centered {
   text-align: center;

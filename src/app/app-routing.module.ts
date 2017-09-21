@@ -1,17 +1,51 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthGuardService as AuthGuard} from "./services/auth-guard.service";
 
 // Import Page Components
 import {LoginComponent} from "./pages/login/login.component";
 import {HomeComponent} from "./pages/home/home.component";
+import {LoginLayoutComponent} from "./layouts/login-layout/login-layout.component";
+import {HomeLayoutComponent} from "./layouts/home-layout/home-layout.component";
 
 const routes: Routes = [
 
     // Default path
-    {path: '', pathMatch: 'full', component: HomeComponent},
+    // {
+    //     // Default path
+    //     path: '',
+    //     redirectTo: 'home',
+    //     pathMatch: 'full'
+    // },
+    // {
+    //     path: 'home',
+    //     component: HomeComponent
+    // },
+    {path: '', redirectTo: 'login', pathMatch: 'full'},
+    {
+        path: '',                       // {1}
+        component: HomeLayoutComponent,
+        canActivate: [AuthGuard],       // {2}
+        children: [
+            {
+                path: 'home',
+                component: HomeComponent   // {3}
+            },
+        ]
+    },
+    {
+        path: '',
+        component: LoginLayoutComponent, // {4}
+        children: [
+            {
+                path: 'login',
+                component: LoginComponent   // {5}
+            }
+        ]
+    }
 
-    {path: 'login', component: LoginComponent},
+    // {path: 'login', component: LoginComponent},
     // {path: 'home', component: HomeComponent},
     // {path: 'search', component: SearchComponent},
     // {path: 'abalobifn', component: AbalobifnComponent,

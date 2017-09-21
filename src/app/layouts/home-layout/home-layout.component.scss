@@ -1,4 +1,4 @@
-@import '../styles/colours.scss';
+@import '../../../styles/colours.scss';
 
 html, body, material-app{
   margin: 0;
@@ -34,9 +34,4 @@ md-sidenav-container, .my-content {
   top: 0;
   width: 100%;
   z-index: 4;
-}
-
-.login-top-bar {
-  background-color: #333;
-  min-height: 69px;
 }
