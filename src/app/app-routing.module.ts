@@ -4,8 +4,11 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardService as AuthGuard} from "./services/auth-guard.service";
 
 // Import Page Components
-import {LoginComponent} from "./pages/login/login.component";
-import {HomeComponent} from "./pages/home/home.component";
+import { LoginComponent } from "./pages/login/login.component";
+import { HomeComponent } from "./pages/home/home.component";
+import { ProductsComponent } from "./components/products/products.component";
+import { OrdersComponent } from './components/orders/orders.component';
+import { UsersComponent } from './components/users/users.component';
 import {LoginLayoutComponent} from "./layouts/login-layout/login-layout.component";
 import {HomeLayoutComponent} from "./layouts/home-layout/home-layout.component";
 
@@ -31,6 +34,18 @@ const routes: Routes = [
             {
                 path: 'home',
                 component: HomeComponent   // {3}
+            },
+            {
+                path: 'products',
+                component: ProductsComponent   // {3}
+            },
+            {
+                path: 'orders',
+                component: OrdersComponent   // {3}
+            },
+            {
+                path: 'clients',
+                component: UsersComponent   // {3}
             },
         ]
     },

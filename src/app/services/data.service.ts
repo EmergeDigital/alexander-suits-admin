@@ -394,5 +394,27 @@ export class DataService {
         });
     }
 
+    getAllOrders(): Promise<Order[]> {
+        return new Promise((resolve, reject) => {
+          this.authHttp.get(this.API_URL + "/api/order/all").toPromise().then(orders => {
+              const _orders = orders.json();
+              resolve(_orders);
+          }).catch(ex => {
+              reject(ex);
+          });
+        });
+    }
+
+    getUsers(): Promise<User[]> {
+        return new Promise((resolve, reject) => {
+          this.authHttp.get(this.API_URL + "/api/user/all").toPromise().then(user => {
+              const _user = user.json();
+              resolve(_user);
+          }).catch(ex => {
+              reject(ex);
+          });
+        });
+    }
+
 
 }

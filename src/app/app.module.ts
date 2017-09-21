@@ -19,11 +19,24 @@ import {SessionService} from "./services/session.service";
 import {AuthGuardService as AuthGuard} from "./services/auth-guard.service";
 import {FunctionsService} from "./services/functions.service";
 
+
+import { CovalentLayoutModule, CovalentStepsModule /*, any other modules */ } from '@covalent/core';
+// (optional) Additional Covalent Modules imports
+import { CovalentHighlightModule } from '@covalent/highlight';
+import { CovalentMarkdownModule } from '@covalent/markdown';
+import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
+import {CovalentHttpModule} from '@covalent/http';
+import {CovalentSearchModule} from '@covalent/core';
+import {CovalentDataTableModule} from '@covalent/core';
+import {CovalentPagingModule} from '@covalent/core';
 //Import all material.io components here
-import {MaterialComponents} from './material.module';
+import {MaterialComponents} from './mods/material.module';
 
 import { SidenavComponent } from './partials/sidenav/sidenav.component';
 import {Http, Headers, RequestOptions} from '@angular/http';
+import { ProductsComponent } from './components/products/products.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { UsersComponent } from './components/users/users.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -39,7 +52,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         HomeLayoutComponent,
         LoginComponent,
         LoginLayoutComponent,
-        SidenavComponent
+        SidenavComponent,
+        ProductsComponent,
+        OrdersComponent,
+        UsersComponent,
+
     ],
     imports: [
         BrowserModule,
@@ -48,7 +65,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         AppRoutingModule,
         BrowserAnimationsModule,
         ToastyModule,
-        MaterialComponents
+        MaterialComponents,
+        CovalentSearchModule,
+        CovalentDataTableModule,CovalentPagingModule,
+        CovalentLayoutModule, CovalentStepsModule, CovalentHighlightModule, CovalentMarkdownModule, CovalentDynamicFormsModule,
+
+        CovalentHttpModule.forRoot(),
     ],
     providers: [DataService, SessionService, FunctionsService, AuthService, AuthGuard,
         {
