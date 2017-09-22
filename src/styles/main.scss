@@ -54,6 +54,16 @@ tr.td-data-table-row {
   }
 }
 
+.loading {
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+
+  .mat-spinner {
+      margin: 0 auto;
+  }
+}
+
 .showOnMobile {
   display: none;
 }

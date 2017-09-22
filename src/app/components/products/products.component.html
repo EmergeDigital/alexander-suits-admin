@@ -38,4 +38,8 @@
       {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
     </td-paging-bar>
   </div>
+
+  <div class="loading" *ngIf="loading">
+    <md-spinner></md-spinner>
+  </div>
 </div>
