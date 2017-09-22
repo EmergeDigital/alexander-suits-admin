@@ -31,6 +31,7 @@ export class AddProductComponent implements OnInit {
   }
 
   filteredOptions: Observable<string[]>;
+  isLoaded: boolean = false;
 
    ngOnInit() {
       this.filteredOptions = this.myControl.valueChanges
