@@ -1,24 +1,26 @@
-<md-toolbar color="primary" class="unselectable">
-  <div class="alex-navbar-inner">
-    <button md-icon-button class="navbar-icon" (click)="sidenav.toggle()">
-       <md-icon>menu</md-icon>
-    </button>
-    <div class="alex-navbar-button">
-      <button md-button style="centered">ALEXANDER SUITS ADMIN</button>
-    </div>
-  </div>
-</md-toolbar>
+
 <md-sidenav-container>
   <md-sidenav mode="side" #sidenav class="my-sidenav" opened="true"><app-sidenav></app-sidenav>
   </md-sidenav>
 
   <div class="my-content">
+    <md-toolbar color="primary" class="unselectable">
+      <div class="alex-navbar-inner">
+        <button md-icon-button class="navbar-icon" (click)="sidenav.toggle()">
+           <md-icon *ngIf="!sidenav.opened">menu</md-icon>
+           <md-icon *ngIf="sidenav.opened">arrow_back</md-icon>
+        </button>
+        <div class="alex-navbar-button">
+          <button md-button style="centered">ALEXANDER SUITS ADMIN</button>
+        </div>
+      </div>
+    </md-toolbar>
 
-    <div class="nav-padder">
+    <!-- <div class="nav-padder"> -->
         <router-outlet>
 
         </router-outlet>
-    </div>
+    <!-- </div> -->
     <!-- <app-footer [appTitle]=app_name>
 
     </app-footer> -->
