@@ -1,0 +1,34 @@
+<div class="container-fluid animated fadeIn">
+  <div class="product-add-container" *ngIf="!isLoading">
+    <h1>Add Product</h1>
+    <div class="product-add-form">
+      <form class="s-form">
+        <md-form-field class="p-full-width">
+          <input mdInput placeholder="Product Name" value="" [(ngModel)]="product.name" name="name">
+        </md-form-field>
+        <md-form-field class="p-full-width">
+          <input mdInput placeholder="Description" value="" [(ngModel)]="product.desc" name="desc">
+        </md-form-field>
+        <md-form-field  class="p-full-width">
+           <input type="text" placeholder="Category" mdInput name="category" [(ngModel)]="product.category" [formControl]="myControl" [mdAutocomplete]="auto">
+        </md-form-field>
+
+        <md-autocomplete #auto="mdAutocomplete" class="p-full-width">
+           <md-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option }}
+           </md-option>
+        </md-autocomplete>
+        <md-form-field class="p-full-width" name="price" [(ngModel)]="product.price" >
+          <span mdPrefix><b>ZAR &nbsp;</b></span>
+          <input type="number" mdInput placeholder="Price">
+        </md-form-field>
+        <md-form-field class="p-full-width" name="stock" [(ngModel)]="product.stock" >
+          <input type="number" mdInput placeholder="Current Stock">
+        </md-form-field>
+        <div class="p-button">
+          <button md-raised-button color="primary" (click)="next()">Next</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,3 @@
-
 import {NgModule} from '@angular/core';
 
 //Import all material.io components here
@@ -16,15 +15,16 @@ import {MdSelectModule} from '@angular/material';
 import {MdDialogModule} from '@angular/material';
 import {MdRadioModule} from '@angular/material';
 import {MdSlideToggleModule} from '@angular/material';
+import {MdAutocompleteModule} from '@angular/material';
 
 @NgModule({
   imports: [
     MdButtonModule, MdMenuModule, MdCheckboxModule, MdSidenavModule, MdToolbarModule, MdIconModule, MdCardModule, MdInputModule,
-    MdGridListModule, MdProgressSpinnerModule, MdSelectModule, MdDialogModule, MdRadioModule
+    MdGridListModule, MdProgressSpinnerModule, MdSelectModule, MdDialogModule, MdRadioModule, MdAutocompleteModule
   ],
   exports: [
     MdButtonModule, MdMenuModule, MdCheckboxModule, MdSidenavModule, MdToolbarModule, MdIconModule, MdCardModule, MdInputModule,
-    MdGridListModule, MdProgressSpinnerModule, MdSelectModule, MdDialogModule, MdRadioModule
+    MdGridListModule, MdProgressSpinnerModule, MdSelectModule, MdDialogModule, MdRadioModule, MdAutocompleteModule
   ]
 })
 export class MaterialComponents { }

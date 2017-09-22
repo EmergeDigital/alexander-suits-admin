@@ -9,6 +9,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { ProductsComponent } from "./components/products/products.component";
 import { OrdersComponent } from './components/orders/orders.component';
 import { UsersComponent } from './components/users/users.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 import {LoginLayoutComponent} from "./layouts/login-layout/login-layout.component";
 import {HomeLayoutComponent} from "./layouts/home-layout/home-layout.component";
 
@@ -46,6 +47,10 @@ const routes: Routes = [
             {
                 path: 'clients',
                 component: UsersComponent   // {3}
+            },
+            {
+                path: 'add-product',
+                component: AddProductComponent   // {3}
             },
         ]
     },

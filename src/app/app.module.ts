@@ -11,6 +11,8 @@ import {LoginComponent} from './pages/login/login.component';
 import {LoginLayoutComponent} from "./layouts/login-layout/login-layout.component";
 import {HomeLayoutComponent} from "./layouts/home-layout/home-layout.component";
 import {ToastyModule} from 'ng2-toasty';
+import {ReactiveFormsModule} from '@angular/forms';
+
 
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {DataService} from "./services/data.service";
@@ -38,6 +40,7 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import { ProductsComponent } from './components/products/products.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { UsersComponent } from './components/users/users.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -57,7 +60,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         ProductsComponent,
         OrdersComponent,
         UsersComponent,
-
+        AddProductComponent
     ],
     imports: [
         BrowserModule,
@@ -68,6 +71,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         ToastyModule,
         MaterialComponents,
         DndModule.forRoot(),
+        ReactiveFormsModule,
         CovalentSearchModule, CovalentDataTableModule,CovalentPagingModule,
         CovalentLayoutModule, CovalentStepsModule, CovalentHighlightModule, CovalentMarkdownModule, CovalentDynamicFormsModule,
 
