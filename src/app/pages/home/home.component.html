@@ -1,9 +1,31 @@
-<div class="">
-    <div class="jumbotron" style="height: 100vh">
-        <div class="container">
-            <h1>Dashboard</h1>
-            <p>Site content will go here.</p>
-            <button md-raised-button color="primary" (click)="logout()">Explore</button>
+<div class="dashboard-home">
+    <div class="container-fluid">
+        <h1>Dashboard</h1>
+        <h4>Drag-and-drop Orders demo</h4><br />
+        <div class="row">
+            <div dnd-sortable-container [sortableData]="containers" [dropZones]="['container-dropZone']">
+                <div class="col-sm-4"
+                        *ngFor="let container of containers; let i = index"
+                        dnd-sortable [sortableIndex]="i" [dragEnabled]="dragOperation">
+                    <div class="panel {{container.panel}}"
+                        dnd-sortable-container [sortableData]="container.widgets" [dropZones]="['widget-dropZone']">
+                        <div class="panel-heading">
+                          {{container.name}}
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li *ngFor="let widget of container.widgets; let x = index" class="list-group-item"
+                                    dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation"
+                                    [dragData]="widget"><div>
+                                      {{widget.name}}<br />
+                                      <strong>{{widget.person}}</strong>
+                                    </div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <br /><br /><button md-raised-button color="primary" (click)="logout()">Logout</button>
     </div>
 </div>

@@ -175,6 +175,7 @@ export class AuthService {
               this.router.navigate(['/login']);
               this._authenticated.emit(false);
               this._authenticating.emit(false);
+              alert("You need to be authorized to continue");
               resolve(null);
           }
           // console.log(user['roles.as']);

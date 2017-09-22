@@ -31,6 +31,7 @@ import {CovalentDataTableModule} from '@covalent/core';
 import {CovalentPagingModule} from '@covalent/core';
 //Import all material.io components here
 import {MaterialComponents} from './mods/material.module';
+import {DndModule} from 'ng2-dnd';
 
 import { SidenavComponent } from './partials/sidenav/sidenav.component';
 import {Http, Headers, RequestOptions} from '@angular/http';
@@ -66,8 +67,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         BrowserAnimationsModule,
         ToastyModule,
         MaterialComponents,
-        CovalentSearchModule,
-        CovalentDataTableModule,CovalentPagingModule,
+        DndModule.forRoot(),
+        CovalentSearchModule, CovalentDataTableModule,CovalentPagingModule,
         CovalentLayoutModule, CovalentStepsModule, CovalentHighlightModule, CovalentMarkdownModule, CovalentDynamicFormsModule,
 
         CovalentHttpModule.forRoot(),
