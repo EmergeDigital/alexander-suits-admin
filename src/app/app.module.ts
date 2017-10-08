@@ -31,6 +31,9 @@ import {CovalentHttpModule} from '@covalent/http';
 import {CovalentSearchModule} from '@covalent/core';
 import {CovalentDataTableModule} from '@covalent/core';
 import {CovalentPagingModule} from '@covalent/core';
+import { CovalentFileModule } from '@covalent/core';
+import { CovalentChipsModule } from '@covalent/core';
+import { CovalentLoadingModule } from '@covalent/core';
 //Import all material.io components here
 import {MaterialComponents} from './mods/material.module';
 import {DndModule} from 'ng2-dnd';
@@ -71,9 +74,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         ToastyModule,
         MaterialComponents,
         DndModule.forRoot(),
-        ReactiveFormsModule,
         CovalentSearchModule, CovalentDataTableModule,CovalentPagingModule,
         CovalentLayoutModule, CovalentStepsModule, CovalentHighlightModule, CovalentMarkdownModule, CovalentDynamicFormsModule,
+        CovalentFileModule, CovalentChipsModule, CovalentLoadingModule,
 
         CovalentHttpModule.forRoot(),
     ],

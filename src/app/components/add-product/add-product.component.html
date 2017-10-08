@@ -9,26 +9,71 @@
         <md-form-field class="p-full-width">
           <input mdInput placeholder="Description" value="" [(ngModel)]="product.desc" name="desc">
         </md-form-field>
-        <md-form-field  class="p-full-width">
-           <input type="text" placeholder="Category" mdInput name="category" [(ngModel)]="product.category" [formControl]="myControl" [mdAutocomplete]="auto">
-        </md-form-field>
+        <td-chips [chipAddition]="chipAddition"
+            name="cats"
+            color="primary"
+            [chipRemoval]="chipRemoval"
+            [items]="filteredStrings"
+            [(ngModel)]="stringsModel"
+            placeholder="Enter multiple categories"
+            [disabled]="disabled"
+            (inputChange)="filterStrings($event)"
+            requireMatch>
+        </td-chips>
 
-        <md-autocomplete #auto="mdAutocomplete" class="p-full-width">
+        <md-select placeholder="Suit Price Category" class="p-full-width">
+           <md-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</md-option>
+        </md-select>
+
+
+        <md-select placeholder="Shirt Price Category" class="p-full-width">
+           <md-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</md-option>
+        </md-select>
+        <!-- <md-form-field  class="p-full-width">
+           <input type="text" placeholder="Category" mdInput name="category" [(ngModel)]="product.category" [formControl]="myControl" [mdAutocomplete]="auto">
+        </md-form-field> -->
+
+        <!-- <md-autocomplete #auto="mdAutocomplete" class="p-full-width">
            <md-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{ option }}
            </md-option>
-        </md-autocomplete>
-        <md-form-field class="p-full-width" name="price" [(ngModel)]="product.price" >
+        </md-autocomplete> -->
+        <md-form-field class="p-full-width">
           <span mdPrefix><b>ZAR &nbsp;</b></span>
-          <input type="number" mdInput placeholder="Price">
+          <input mdInput type="number" name="price" value=""  [(ngModel)]="product.price" placeholder="Fixed Price">
         </md-form-field>
-        <md-form-field class="p-full-width" name="stock" [(ngModel)]="product.stock" >
-          <input type="number" mdInput placeholder="Current Stock">
+        <md-form-field class="p-full-width">
+          <input mdInput type="number" name="stock" value=""  placeholder="Current Stock"  [(ngModel)]="product.stock" >
         </md-form-field>
-        <div class="p-button">
-          <button md-raised-button color="primary" (click)="next()">Next</button>
+        <div style="text-align: left;">
+          <p>Main Image: {{fileUploading}}</p>
+          <p *ngIf="fileSelectMsg">
+            Click again to upload before submitting
+          </p>
+          <td-file-upload accept=".jpg, .png, .jpeg" defaultColor="primary" activeColor="warn" cancelColor="primary" #singleFileUpload
+          (select)="selectEvent($event)" (cancel)="cancelEvent()"  [(disabled)]="uploading" >
+            <md-icon>file_upload</md-icon><span>1 file selected</span>
+            <ng-template td-file-input-label>
+              <md-icon>attach_file</md-icon><span>Choose a file...</span>
+            </ng-template>
+          </td-file-upload>
         </div>
+        <!-- <div *ngIf="imagesUploaded?.length > 0">
+          <p>
+            <td-chips
+                      name="img1"
+                      color="primary"
+                      [chipAddition]="canAddChips"
+                      [(ngModel)]="imagesUploaded"
+                      placeholder=""
+                      >
+            </td-chips>
+          </p>
+        </div> -->
       </form>
+      <div class="p-button">
+        <button md-raised-button color="primary" (click)="next()">Next</button>
+      </div>
     </div>
   </div>
 </div>

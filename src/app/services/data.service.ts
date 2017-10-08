@@ -12,6 +12,7 @@ import {User} from "../models/user";
 import {Product} from "../models/product";
 import {Cart} from "../models/cart";
 import {Order} from "../models/order";
+import { TdFileService, IUploadOptions } from '@covalent/core';
 
 @Injectable()
 export class DataService {
@@ -30,7 +31,7 @@ export class DataService {
     has_loaded: boolean;
     // user: any;
 
-    constructor(public auth: AuthService, public http: Http, public authHttp: AuthHttp,  public session: SessionService, public functions: FunctionsService) {
+    constructor(public auth: AuthService, public http: Http, public authHttp: AuthHttp,  public session: SessionService, public functions: FunctionsService, public fileUploadService: TdFileService) {
         this.API_URL = environment.apiUrl;
         // auth._user.subscribe(user=>{
         //
@@ -415,6 +416,26 @@ export class DataService {
           });
         });
     }
+
+    uploadImage(file): Promise<any> {
+      return new Promise((resolve, reject) => {
+        let options: IUploadOptions = {
+          url: this.API_URL + '/api/functions/uploadFile',
+          method: 'post',
+          file: file
+        };
+        this.fileUploadService.upload(options).subscribe((response) => {
+          console.log(response);
+          if(response.error) {
+            reject(response.error);
+          } else {
+            resolve(response.replace(/"/g,""));
+          }
+          // this.fileUpload = ;
+        });
+      })
+    }
+
 
 
 }
