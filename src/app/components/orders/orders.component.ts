@@ -15,14 +15,14 @@ const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(2);
 })
 export class OrdersComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
-    { name: 'order_string',  label: 'Order Number', sortable: true },
-    { name: 'user_data.name', label: 'Customer Name', filter: true },
+    { name: 'order_string',  label: 'Order Number', sortable: true, numeric: false},
+    { name: 'user_data', label: 'Customer Name', filter: true, format: u => u.name, numeric: false},
     // { name: 'delivery_data', label: 'Delivery', filter: true, sortable: true, hidden: false },
-    { name: 'contact_email', label: 'Email', sortable: true, filter: true},
-    { name: 'contact_number', label: 'Contact Number', sortable: true, filter: true},
-    { name: 'total', label: 'Total (ZAR)', numeric: true, format: DECIMAL_FORMAT, sortable: true },
-    { name: 'status', label: 'Status', sortable: true, filter: true},
-    { name: 'createdAt', label: 'Created', sortable: true, format: c => moment(c).format('DD-MM-YYYY')}
+    { name: 'contact_email', label: 'Email', sortable: true, filter: true, numeric: false},
+    { name: 'contact_number', label: 'Contact Number', sortable: true, filter: true, numeric: true},
+    { name: 'total', label: 'Total (ZAR)', numeric: true, format: DECIMAL_FORMAT, sortable: true},
+    { name: 'status', label: 'Status', sortable: true, filter: true,  numeric: true},
+    { name: 'createdAt', label: 'Created', sortable: true, format: c => moment(c).format('DD-MM-YYYY'), numeric: true}
   ];
 
   data: any[];
@@ -30,6 +30,18 @@ export class OrdersComponent implements OnInit {
   filteredData: any[];
   filteredTotal: number;
   loading: boolean = true;
+  mustFloat: boolean = true;
+
+
+  changeStatus(row) {
+   console.log(row);
+  }
+
+  statuses = [
+    {value: 'awaiting_payment', viewValue: 'Awaiting Payment'},
+    {value: 'processed', viewValue: 'Processed'},
+    {value: 'complete', viewValue: 'Complete'}
+  ];
 
   searchTerm: string = '';
   fromRow: number = 1;
@@ -59,6 +71,7 @@ export class OrdersComponent implements OnInit {
   }
 
   sort(sortEvent: ITdDataTableSortChangeEvent): void {
+    console.log(sortEvent)
     this.sortBy = sortEvent.name;
     this.sortOrder = sortEvent.order;
     this.filter();

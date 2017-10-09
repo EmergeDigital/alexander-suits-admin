@@ -3,12 +3,12 @@
     <h1>Add Product</h1>
     <div class="product-add-form">
       <form class="s-form">
-        <md-form-field class="p-full-width">
-          <input mdInput placeholder="Product Name" value="" [(ngModel)]="product.name" name="name">
-        </md-form-field>
-        <md-form-field class="p-full-width">
-          <input mdInput placeholder="Description" value="" [(ngModel)]="product.desc" name="desc">
-        </md-form-field>
+        <mat-form-field class="p-full-width">
+          <input matInput placeholder="Product Name" value="" [(ngModel)]="product.name" name="name">
+        </mat-form-field>
+        <mat-form-field class="p-full-width">
+          <input matInput placeholder="Description" value="" [(ngModel)]="product.desc" name="desc">
+        </mat-form-field>
         <td-chips [chipAddition]="chipAddition"
             name="cats"
             color="primary"
@@ -21,30 +21,30 @@
             requireMatch>
         </td-chips>
 
-        <md-select placeholder="Suit Price Category" class="p-full-width">
-           <md-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</md-option>
-        </md-select>
+        <mat-select placeholder="Suit Price Category" class="p-full-width">
+           <mat-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</mat-option>
+        </mat-select>
 
 
-        <md-select placeholder="Shirt Price Category" class="p-full-width">
-           <md-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</md-option>
-        </md-select>
-        <!-- <md-form-field  class="p-full-width">
-           <input type="text" placeholder="Category" mdInput name="category" [(ngModel)]="product.category" [formControl]="myControl" [mdAutocomplete]="auto">
-        </md-form-field> -->
+        <mat-select placeholder="Shirt Price Category" class="p-full-width">
+           <mat-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</mat-option>
+        </mat-select>
+        <!-- <mat-form-field  class="p-full-width">
+           <input type="text" placeholder="Category" matInput name="category" [(ngModel)]="product.category" [formControl]="myControl" [matAutocomplete]="auto">
+        </mat-form-field> -->
 
-        <!-- <md-autocomplete #auto="mdAutocomplete" class="p-full-width">
-           <md-option *ngFor="let option of filteredOptions | async" [value]="option">
+        <!-- <mat-autocomplete #auto="matAutocomplete" class="p-full-width">
+           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{ option }}
-           </md-option>
-        </md-autocomplete> -->
-        <md-form-field class="p-full-width">
-          <span mdPrefix><b>ZAR &nbsp;</b></span>
-          <input mdInput type="number" name="price" value=""  [(ngModel)]="product.price" placeholder="Fixed Price">
-        </md-form-field>
-        <md-form-field class="p-full-width">
-          <input mdInput type="number" name="stock" value=""  placeholder="Current Stock"  [(ngModel)]="product.stock" >
-        </md-form-field>
+           </mat-option>
+        </mat-autocomplete> -->
+        <mat-form-field class="p-full-width">
+          <span matPrefix><b>ZAR &nbsp;</b></span>
+          <input matInput type="number" name="price" value=""  [(ngModel)]="product.price" placeholder="Fixed Price">
+        </mat-form-field>
+        <mat-form-field class="p-full-width">
+          <input matInput type="number" name="stock" value=""  placeholder="Current Stock"  [(ngModel)]="product.stock" >
+        </mat-form-field>
         <div style="text-align: left;">
           <p>Main Image: {{fileUploading}}</p>
           <p *ngIf="fileSelectMsg">
@@ -52,9 +52,9 @@
           </p>
           <td-file-upload accept=".jpg, .png, .jpeg" defaultColor="primary" activeColor="warn" cancelColor="primary" #singleFileUpload
           (select)="selectEvent($event)" (cancel)="cancelEvent()"  [(disabled)]="uploading" >
-            <md-icon>file_upload</md-icon><span>1 file selected</span>
+            <mat-icon>file_upload</mat-icon><span>1 file selected</span>
             <ng-template td-file-input-label>
-              <md-icon>attach_file</md-icon><span>Choose a file...</span>
+              <mat-icon>attach_file</mat-icon><span>Choose a file...</span>
             </ng-template>
           </td-file-upload>
         </div>
@@ -72,7 +72,7 @@
         </div> -->
       </form>
       <div class="p-button">
-        <button md-raised-button color="primary" (click)="next()">Next</button>
+        <button mat-raised-button color="primary" (click)="next()">Next</button>
       </div>
     </div>
   </div>

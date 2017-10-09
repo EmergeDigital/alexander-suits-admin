@@ -1,20 +1,20 @@
 
-<md-sidenav-container>
-  <md-sidenav mode="side" #sidenav class="my-sidenav" opened="true"><app-sidenav></app-sidenav>
-  </md-sidenav>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" #sidenav class="my-sidenav" opened="true"><app-sidenav></app-sidenav>
+  </mat-sidenav>
 
   <div class="my-content">
-    <md-toolbar color="primary" class="unselectable">
+    <mat-toolbar color="primary" class="unselectable">
       <div class="alex-navbar-inner">
-        <button md-icon-button class="navbar-icon" (click)="sidenav.toggle()">
-           <md-icon *ngIf="!sidenav.opened">menu</md-icon>
-           <md-icon *ngIf="sidenav.opened">arrow_back</md-icon>
+        <button mat-icon-button class="navbar-icon" (click)="sidenav.toggle()">
+           <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+           <mat-icon *ngIf="sidenav.opened">arrow_back</mat-icon>
         </button>
         <div class="alex-navbar-button">
-          <button md-button style="centered">ALEXANDER SUITS ADMIN</button>
+          <button mat-button style="centered">ALEXANDER SUITS ADMIN</button>
         </div>
       </div>
-    </md-toolbar>
+    </mat-toolbar>
 
     <!-- <div class="nav-padder"> -->
         <router-outlet>
@@ -26,4 +26,4 @@
     </app-footer> -->
   </div>
 
-</md-sidenav-container>
+</mat-sidenav-container>
