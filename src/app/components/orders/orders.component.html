@@ -61,12 +61,14 @@
       (sortChange)="sort($event)">
 
       <ng-template tdDataTableTemplate="status" let-value="value" let-row="row" let-column="column">
-        <!-- {{value}} -->
           <mat-select placeholder="Set status" floatPlaceholder="never" [(ngModel)]="row[column]" (change)="changeStatus(row)">
             <mat-option *ngFor="let status of statuses" [value]="status.value">
               {{ status.viewValue }}
             </mat-option>
           </mat-select>
+      </ng-template>
+      <ng-template tdDataTableTemplate="view" let-value="value" let-row="row" let-column="column" style="text-align: center;">
+          <button mat-button color="primary" (click)="viewOrder(row)">{{'View Order'}}</button>
       </ng-template>
     </td-data-table>
     <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">

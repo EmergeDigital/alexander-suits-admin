@@ -21,14 +21,19 @@
             requireMatch>
         </td-chips>
 
-        <mat-select placeholder="Suit Price Category" class="p-full-width">
-           <mat-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</mat-option>
-        </mat-select>
+
+        <mat-form-field class="p-full-width" style="padding-top: 10px;">
+          <mat-select placeholder="Suit Price Category" [(ngModel)]="price1" name="price1" class="p-full-width">
+             <mat-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
 
-        <mat-select placeholder="Shirt Price Category" class="p-full-width">
-           <mat-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</mat-option>
-        </mat-select>
+        <mat-form-field class="p-full-width">
+          <mat-select placeholder="Shirt Price Category" [(ngModel)]="price2" name="price2" class="p-full-width">
+             <mat-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
         <!-- <mat-form-field  class="p-full-width">
            <input type="text" placeholder="Category" matInput name="category" [(ngModel)]="product.category" [formControl]="myControl" [matAutocomplete]="auto">
         </mat-form-field> -->

@@ -22,7 +22,8 @@ export class OrdersComponent implements OnInit {
     { name: 'contact_number', label: 'Contact Number', sortable: true, filter: true, numeric: true},
     { name: 'total', label: 'Total (ZAR)', numeric: true, format: DECIMAL_FORMAT, sortable: true},
     { name: 'status', label: 'Status', sortable: true, filter: true,  numeric: true},
-    { name: 'createdAt', label: 'Created', sortable: true, format: c => moment(c).format('DD-MM-YYYY'), numeric: true}
+    { name: 'createdAt', label: 'Created', sortable: true, format: c => moment(c).format('DD-MM-YYYY'), numeric: true},
+    { name: 'view', label: '', sortable: false, filter: false},
   ];
 
   data: any[];
@@ -34,6 +35,10 @@ export class OrdersComponent implements OnInit {
 
 
   changeStatus(row) {
+   console.log(row);
+  }
+
+  viewOrder(row) {
    console.log(row);
   }
 
@@ -71,7 +76,7 @@ export class OrdersComponent implements OnInit {
   }
 
   sort(sortEvent: ITdDataTableSortChangeEvent): void {
-    console.log(sortEvent)
+    // console.log(sortEvent)
     this.sortBy = sortEvent.name;
     this.sortOrder = sortEvent.order;
     this.filter();
