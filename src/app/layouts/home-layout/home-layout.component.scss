@@ -6,12 +6,19 @@ html, body, material-app{
   height: 100%;
 }
 
-mat-sidenav-container, .my-content {
-  height: 100%;
+
+.mat-drawer-container {
+
+    height: 100%;
+}
+
+md-sidenav-container, .my-content {
+  min-height: 100%;
+  // overflow-y: scroll;
 }
 
 .my-content {
-      background: #FAFAFA;
+  background: #FAFAFA;
 }
 
 .my-sidenav {
