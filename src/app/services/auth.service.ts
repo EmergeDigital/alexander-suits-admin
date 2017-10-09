@@ -27,13 +27,13 @@ export class AuthService {
        'bloom.au.auth0.com',
         {
             theme: {
-              logo: 'asd',
+              logo: 'http://res.cloudinary.com/dhb9izfva/image/upload/v1507473743/snbj02qyqnwsuvqweqyt.png',
               primaryColor: '#830024'
             },
            oidcConformant: true,
            autoclose: true,
            auth: {
-               redirectUrl: 'alexander-suits',
+               redirectUrl: environment.authCallback,
                responseType: 'token id_token',
                audience: 'alexander-suits',
                params: {
