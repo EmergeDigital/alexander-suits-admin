@@ -43,6 +43,7 @@ export class AddProductComponent implements OnInit {
   //  }
 
    fileSelectMsg: string = '';
+   isLoading: boolean = false;
    uploadImg: any = {};
    uploading: boolean = false;
    fileUploading: string = '';

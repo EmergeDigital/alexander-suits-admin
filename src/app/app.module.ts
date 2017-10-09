@@ -71,7 +71,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         HttpModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        ToastyModule,
+        ToastyModule.forRoot(),
         MaterialComponents,
         DndModule.forRoot(),
         CovalentSearchModule, CovalentDataTableModule,CovalentPagingModule,
