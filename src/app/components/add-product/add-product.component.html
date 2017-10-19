@@ -3,53 +3,183 @@
     <h1>Add Product</h1>
     <div class="product-add-form">
       <form class="s-form">
+        <hr>
+        <p>Basic Product Details</p>
+        <mat-form-field class="p-full-width">
+          <input matInput placeholder="Article Number" value="" [(ngModel)]="product.article_number" name="an">
+        </mat-form-field>
+        <mat-form-field class="p-full-width">
+          <input matInput placeholder="Colour Number" value="" [(ngModel)]="product.colour_number" name="cn">
+        </mat-form-field>
         <mat-form-field class="p-full-width">
           <input matInput placeholder="Product Name" value="" [(ngModel)]="product.name" name="name">
         </mat-form-field>
-        <mat-form-field class="p-full-width">
+        <!-- <mat-form-field class="p-full-width">
           <input matInput placeholder="Description" value="" [(ngModel)]="product.desc" name="desc">
-        </mat-form-field>
+        </mat-form-field> -->
         <td-chips [chipAddition]="chipAddition"
             name="cats"
             color="primary"
             [chipRemoval]="chipRemoval"
-            [items]="filteredStrings"
-            [(ngModel)]="stringsModel"
+            [items]="filteredCats"
+            [(ngModel)]="catsModel"
             placeholder="Enter multiple categories"
             [disabled]="disabled"
-            (inputChange)="filterStrings($event)"
+            (inputChange)="filterCats($event)"
             requireMatch>
         </td-chips>
 
+        <br><hr>
+        <p>Additional Information</p>
 
-        <mat-form-field class="p-full-width" style="padding-top: 10px;">
-          <mat-select placeholder="Suit Price Category" [(ngModel)]="price1" name="price1" class="p-full-width">
-             <mat-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div style="padding-top: 5px">
+          <mat-form-field class="p-full-width">
+            <mat-select placeholder="Print" class="p-full-width" [(ngModel)]="selectedPrint" name="print">
+              <mat-option *ngFor="let print of prints" [value]="print">
+                {{ print }}
+              </mat-option>
+          </mat-select></mat-form-field>
+        </div>
 
+        <div *ngIf="selPrint()">
+          <mat-form-field class="p-full-width">
+            <mat-select placeholder="Print Type" class="p-full-width" [(ngModel)]="selectedPrint_type" name="print2">
+              <div *ngIf="selectedPrint === 'Check'"><mat-option *ngFor="let _check of _checks" [value]="_check">
+                {{ _check }}
+              </mat-option></div>
+              <div *ngIf="selectedPrint === 'Stripe'"><mat-option *ngFor="let _stripe of _stripes" [value]="_stripe">
+                {{ _stripe }}
+              </mat-option></div>
+              <div *ngIf="selectedPrint === 'Other'"><mat-option *ngFor="let _other of _others" [value]="_other">
+                {{ _other }}
+              </mat-option></div>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+       <td-chips [chipAddition]="colourAddition"
+            name="colour1"
+            color="primary"
+            [chipRemoval]="chipRemoval"
+            [items]="filteredColours"
+            (add)="colourAdded()"
+            (remove)="colourRemoved()"
+            [(ngModel)]="coloursModel"
+            placeholder="Enter Primary Colour"
+            [disabled]="disabled"
+            (inputChange)="filterColours($event)"
+            >
+        </td-chips>
+        <div *ngIf="!colourAddition" style="border-bottom: 1px solid #919191"></div>
+
+        <td-chips [chipAddition]="chipAddition"
+            name="colour2"
+            color="primary"
+            [chipRemoval]="chipRemoval"
+            [items]="filteredColours2"
+            [(ngModel)]="coloursModel2"
+            placeholder="Enter Secondary Colours"
+            [disabled]="disabled"
+            (inputChange)="filterColours2($event)"
+            >
+        </td-chips>
+
+        <div style="padding-top: 5px">
+          <mat-form-field class="p-full-width">
+            <mat-select placeholder="Fabric Type" class="p-full-width" [(ngModel)]="fabricType" name="ft">
+              <mat-option *ngFor="let fabric_type of fabric_types" [value]="fabric_type">
+                {{ fabric_type }}
+              </mat-option>
+          </mat-select></mat-form-field>
+        </div>
+
+        <div *ngIf="selType()">
+          <mat-form-field class="p-full-width">
+            <mat-select placeholder="Print Type" class="p-full-width" [(ngModel)]="fabricSubcategory" name="fsc">
+              <div *ngIf="fabricType === 'Cotton Blend'"><mat-option *ngFor="let _cotton of _cottons" [value]="_cotton">
+                {{ _cotton }}
+              </mat-option></div>
+              <div *ngIf="fabricType === 'Linen Blend'"><mat-option *ngFor="let _linen of _linens" [value]="_linen">
+                {{ _linen }}
+              </mat-option></div>
+              <div *ngIf="fabricType === 'Wool Blend'"><mat-option *ngFor="let _wool of _wools" [value]="_wool">
+                {{ _wool }}
+              </mat-option></div>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div *ngIf="catsModel.includes('Shirt')">
+          <mat-form-field class="p-full-width">
+            <mat-select placeholder="Weave Description (shirt)" class="p-full-width" [(ngModel)]="weaveDesc" name="ws">
+              <mat-option *ngFor="let weave_ of weaves_shirt" [value]="weave_">
+                {{ weave_ }}
+              </mat-option>
+          </mat-select></mat-form-field>
+        </div>
+        
+        <div *ngIf="catsModel.includes('Suit') || catsModel.includes('Jacket') || catsModel.includes('Trousers') || catsModel.includes('Waistcoat')">
+          <mat-form-field class="p-full-width">
+            <mat-select placeholder="Weave Description (other)" class="p-full-width" [(ngModel)]="weaveDescOther" name="wo">
+              <mat-option *ngFor="let weave__ of weaves_other" [value]="weave__">
+                {{ weave__ }}
+              </mat-option>
+          </mat-select></mat-form-field>
+        </div>
+
+        <td-chips [chipAddition]="chipAddition"
+            name="collection"
+            color="primary"
+            [chipRemoval]="chipRemoval"
+            [items]="filteredCols"
+            [(ngModel)]="collectionsModel"
+            placeholder="Enter Collections"
+            [disabled]="disabled"
+            (inputChange)="filterCols($event)"
+            requireMatch>
+        </td-chips>
+
+        <br><hr>
+        <p>Descriptions</p>
 
         <mat-form-field class="p-full-width">
-          <mat-select placeholder="Shirt Price Category" [(ngModel)]="price2" name="price2" class="p-full-width">
-             <mat-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</mat-option>
-          </mat-select>
+          <textarea matInput placeholder="Description Short" [(ngModel)]="product.desc" name="ds">{{product.desc}}</textarea>
         </mat-form-field>
-        <!-- <mat-form-field  class="p-full-width">
-           <input type="text" placeholder="Category" matInput name="category" [(ngModel)]="product.category" [formControl]="myControl" [matAutocomplete]="auto">
-        </mat-form-field> -->
+        
+        <mat-form-field class="p-full-width">
+          <textarea matInput placeholder="Description Long" [(ngModel)]="product.desc_long" name="dl">{{product.desc_long}}</textarea>
+        </mat-form-field>
 
-        <!-- <mat-autocomplete #auto="matAutocomplete" class="p-full-width">
-           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{ option }}
-           </mat-option>
-        </mat-autocomplete> -->
+        <hr>
+        <p>Prices and Images</p>
+        
+        <div *ngIf="catsModel.includes('Suit') || catsModel.includes('Jacket') || catsModel.includes('Trousers') || catsModel.includes('Waistcoat')">
+          <mat-form-field class="p-full-width" style="padding-top: 10px;">
+            <mat-select placeholder="Suit Price Category" [(ngModel)]="price1" name="price1" class="p-full-width">
+              <mat-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="catsModel.includes('Shirt')">
+          <mat-form-field class="p-full-width">
+            <mat-select placeholder="Shirt Price Category" [(ngModel)]="price2" name="price2" class="p-full-width">
+              <mat-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
         <mat-form-field class="p-full-width">
           <span matPrefix><b>ZAR &nbsp;</b></span>
           <input matInput type="number" name="price" value=""  [(ngModel)]="product.price" placeholder="Fixed Price">
+          <mat-hint align="start"><strong>Only if price category does not match</strong> </mat-hint>
         </mat-form-field>
+
         <mat-form-field class="p-full-width">
-          <input matInput type="number" name="stock" value=""  placeholder="Current Stock"  [(ngModel)]="product.stock" >
+          <input matInput type="number" name="stock" value=""  placeholder="Current Stock (m)"  [(ngModel)]="product.stock" >
         </mat-form-field>
+
         <div style="text-align: left;">
           <p>Main Image: {{fileUploading}}</p>
           <p *ngIf="fileSelectMsg">
@@ -75,10 +205,36 @@
             </td-chips>
           </p>
         </div> -->
-      </form>
+      </form><hr>
       <div class="p-button">
-        <button mat-raised-button color="primary" (click)="next()">Next</button>
+        <button mat-raised-button color="primary" (click)="next()" style="background-color: #232323">Create Product</button>
       </div>
     </div>
+
+    <!-- <div>
+      <table style="width:100%; text-align: left">
+        <tr style="font-size: 16px; margin-bottom: 20px; border-bottom: 2px solid black;">
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Subtotal</th>
+        </tr>
+        <tr style="border-bottom: 1px solid black;">
+          <td>
+            <tr><b>Jill this product has a long long name</b></tr>
+            <tr>Jones</tr>
+          </td>
+          <td>2</td>
+          <td>R50</td>
+        </tr>
+        <tr style="border-bottom: 1px solid black;">
+          <td>
+            <tr><b>JOEN</b></tr>
+            <tr>SMASM</tr>
+          </td>
+          <td>1</td>
+          <td>R94</td>
+        </tr>
+      </table>
+    </div> -->
   </div>
 </div>

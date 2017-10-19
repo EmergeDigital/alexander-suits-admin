@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 
@@ -16,109 +16,361 @@ export class AddProductComponent implements OnInit {
 
   // myControl: FormControl = new FormControl();
 
-  options = [
-    'Suit',
-    'Shirt',
-    'Pants',
-    'Coat',
-    'Accessory',
-    'Blouse',
-    'Custom Suit',
-    'Waistcoat',
-    'Safari Shirt',
-    'Caban Jacket'
-   ];
+  // options = [
+  //   'Shirt',
+  //   'Suit',
+  //   'Jacket',
+  //   'Trouser',
+  //   'Waistcoat',
+  //   // 'Safari Shirt',
+  //   // 'Caban Jacket',
+  //   // 'Accessory',
+  //  ];
+
   constructor(public data: DataService) {
     // this.options = this.options.sort();
   }
 
 
-    ngOnInit(): void {
-      this.filterStrings('');
-    }
+  ngOnInit(): void {
+    this.filterCats('');
+    this.filterColours('');
+    this.colours2 = this.colours;
+  }
 
   //   filter(val: string): string[] {
   //     return this.options.filter(option =>
   //       option.toLowerCase().indexOf(val.toLowerCase()) === 0);
   //  }
 
-   fileSelectMsg: string = '';
-   isLoading: boolean = false;
-   uploadImg: any = {};
-   uploading: boolean = false;
-   fileUploading: string = '';
-   imagesUploaded: string[] = [];
-   canAddChips: boolean = false;
+  fileSelectMsg: string = '';
+  isLoading: boolean = false;
+  uploadImg: any = {};
+  uploading: boolean = false;
+  fileUploading: string = '';
+  imagesUploaded: string[] = [];
+  canAddChips: boolean = false;
 
-   selectEvent(file: File): void {
-     this.fileSelectMsg = file.name;
-     this.uploadImg = file;
-     this.imagesUploaded = [];
-   }
+  selectEvent(file: File): void {
+    this.fileSelectMsg = file.name;
+    this.uploadImg = file;
+    this.imagesUploaded = [];
+  }
 
-   next() {
-     this.uploading = true;
-     this.fileUploading = "Uploading now, please wait.";
-     this.data.uploadImage(this.uploadImg).then(response=>{
-       console.log(response);
-       let arr = [];
-       arr.push(response);
-       this.imagesUploaded = arr;
-       this.uploading = false;
-       this.fileUploading = "";
-       this.fileSelectMsg = "";
-     }).catch(ex => {
-       console.log(ex);
-     });
-   }
+  next() {
+    this.uploading = true;
+    this.fileUploading = "Uploading now, please wait.";
+    this.data.uploadImage(this.uploadImg).then(response => {
+      console.log(response);
+      let arr = [];
+      arr.push(response);
+      this.imagesUploaded = arr;
+      this.uploading = false;
+      this.fileUploading = "";
+      this.fileSelectMsg = "";
+    }).catch(ex => {
+      console.log(ex);
+    });
+  }
 
 
-   cancelEvent(): void {
-     this.fileSelectMsg = '';
-     this.uploadImg =  {};
-     this.imagesUploaded = null;
-   }
+  cancelEvent(): void {
+    this.fileSelectMsg = '';
+    this.uploadImg = {};
+    this.imagesUploaded = null;
+  }
 
-   prices: any[] = [
-     {id: "1", name: "Category 1 - R7600"},
-     {id: "2", name: "Category 2 - R8500"},
-     {id: "3", name: "Category 3 - R11000"}
-   ];
+  prices: any[] = [
+    { id: "1", name: "Category 1 - R7,500.00" },
+    { id: "2", name: "Category 2 - R8,500.00" },
+    { id: "3", name: "Category 3 - R9,500.00" },
+    { id: "4", name: "Category 4 - R10,800.00" },
+    { id: "5", name: "Category 5 - R11,800.00" },
+    { id: "6", name: "Category 6 - R12,800.00" },
+    { id: "7", name: "Category 7 - R13,500.00" },
+    { id: "8", name: "Category 8 - R14,500.00" },
+    { id: "9", name: "Category 9 - R15,500.00" },
+    { id: "10", name: "Category 10 - R17,500.00" },
+    { id: "11", name: "Category 11 - R18,500.00" },
+    { id: "12", name: "Category 12 - R20,800.00" },
+    { id: "13", name: "Category 13 - R22,500.00" },
+    { id: "14", name: "Category 14 - R24,000.00" },
+    { id: "15", name: "Category 15 - R26,000.00" },
+  ];
+  
+  prices2: any[] = [
+    { id: "1", name: "Category 1 - R750.00" },
+    { id: "2", name: "Category 2 - R995.00" },
+    { id: "3", name: "Category 3 - R1,200.00" },
+    { id: "4", name: "Category 4 - R1,500.00" },
+    { id: "5", name: "Category 5 - R1,700.00" },
+    { id: "6", name: "Category 6 - R1,900.00" },
+    { id: "7", name: "Category 7 - R2,400.00" },
+    { id: "8", name: "Category 8 - R2,800.00" },
+    { id: "9", name: "Category 9 - R3,400.00" },
+  ];
 
-   prices2: any[] = [
-     {id: "1", name: "Category 1 - R600"},
-     {id: "2", name: "Category 2 - R850"},
-     {id: "3", name: "Category 3 - R1100"}
-   ];
-
-   disabled: boolean = false;
+  disabled: boolean = false;
   chipAddition: boolean = true;
   chipRemoval: boolean = true;
 
-  strings: string[] = [
+  categories: string[] = [
     'Shirt',
     'Suit',
-    'Pants',
-    'Accessory',
-    'Other'
+    'Jacket',
+    'Trouser',
+    'Waistcoat'
   ];
 
 
-  filteredStrings: string[];
+  filteredCats: string[];
 
-  stringsModel: string[] = [];
+  catsModel: string[] = [];
 
 
-  filterStrings(value: string): void {
-    this.filteredStrings = this.strings.filter((item: any) => {
+  filterCats(value: string): void {
+    this.filteredCats = this.categories.filter((item: any) => {
       if (value) {
         return item.toLowerCase().indexOf(value.toLowerCase()) > -1;
       } else {
         return false;
       }
     }).filter((filteredItem: any) => {
-      return this.stringsModel ? this.stringsModel.indexOf(filteredItem) < 0 : true;
+      return this.catsModel ? this.catsModel.indexOf(filteredItem) < 0 : true;
     });
   }
+
+  selectedPrint: string = "";
+  selectedPrint_type: string = "";
+
+  prints: string[] = [
+    "Check",
+    "Stripe",
+    "Other",
+    "Plain",
+  ];
+
+  _checks: string[] = [
+    "Fine",
+    "Medium",
+    "Large",
+  ];
+
+  _stripes: string[] = [
+    "Fine",
+    "Medium",
+    "Wide",
+  ];
+
+  _others: string[] = [
+    "Spot",
+    "Abstract",
+    "Motif",
+  ];
+
+  selPrint(): boolean {
+    console.log(this.selectedPrint);
+    switch(this.selectedPrint) {
+      case 'Check':
+        return true;
+      
+      case 'Stripe':
+        return true;
+
+      case 'Other':
+        return true;
+
+      default:
+        return false;
+    }
+  }
+
+  colours = [
+    "White",
+    "Offwhite",
+    "Beige",
+    "Orange",
+    "Burnt Orange",
+    "Light Brown",
+    "Brown",
+    "Light Pink",
+    "Pink",
+    "Red",
+    "Dark Red",
+    "Burgundy",
+    "Aubergine",
+    "Light Purple/Malve",
+    "Purple",
+    "Fuchsia /with pink",
+    "Light Blue",
+    "Medium Blue",
+    "Royal Blue",
+    "Cobalt Blue",
+    "Navy Blue",
+    "Dark Navy Blue",
+    "Very light grey",
+    "Light Grey",
+    "Medium Grey",
+    "Charcoal Grey",
+    "Black",
+  ];
+
+
+  filteredColours: string[];
+
+  coloursModel: string[] = [];
+
+  filterColours(value: string): void {
+    this.filteredColours = this.colours.filter((item: any) => {
+      if (value) {
+        return item.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      } else {
+        return false;
+      }
+    }).filter((filteredItem: any) => {
+      return this.coloursModel ? this.coloursModel.indexOf(filteredItem) < 0 : true;
+    });
+  }
+
+  colourAddition: boolean = true;
+
+  colourAdded() {
+    console.log(this.coloursModel);
+    if (this.coloursModel.length >= 1) {
+      this.colourAddition = false;
+    }
+  }
+
+  colourRemoved() {
+    if (this.coloursModel.length < 1) {
+      this.colourAddition = true;
+    }
+  }
+
+  colours2 = [];
+
+  filteredColours2: string[];
+
+  coloursModel2: string[] = [];
+
+  filterColours2(value: string): void {
+    this.filteredColours2 = this.colours2.filter((item: any) => {
+      if (value) {
+        return item.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      } else {
+        return false;
+      }
+    }).filter((filteredItem: any) => {
+      return this.coloursModel2 ? this.coloursModel2.indexOf(filteredItem) < 0 : true;
+    });
+  }
+
+  fabricType: string = '';
+  
+    fabric_types: string[] = [
+      "Cotton",
+      "Cotton Blen",
+      "Linen",
+      "Linen Blend",
+      "Wool",
+      "Wool Blend",
+      "Wool Blend (Artifical Fibre)",
+      "Other",
+    ];
+  
+    _cottons: string[] = [
+      "Polyester",
+      "Line",
+      "Rayon",
+      "Lycra",
+      "Other",
+    ];
+  
+    _linens: string[] = [
+      "Cotton",
+      "Polyester",
+      "Rayon",
+      "Other",
+    ];
+  
+    _wools: string[] = [
+      "Silk",
+      "Mohair",
+      "Merino",
+      "Cotton",
+      "Cashmere",
+      "Linen",
+      "Polyester",
+      "Lycra",
+      "Alpaca",
+      "Vicunya",
+      "Other",
+    ];
+  
+    selType(): boolean {
+      switch(this.fabricType) {
+        case 'Cotton Blend':
+          return true;
+        
+        case 'Linin Blend':
+          return true;
+  
+        case 'Wool Blend':
+          return true;
+  
+        default:
+          return false;
+      }
+    }
+
+    weaves_shirt: string[] = [
+      "Flat / Popeline",
+      "Twill",
+      "Herringbone",
+      "Basket Weave",
+      "Jacquard",
+      "Pin Point / Oxford",
+      "Fil a Fil",
+      "Houndstooth",
+    ];
+
+    weaves_other: string[] = [
+      "Flat / Popeline",
+      "Gabardine (Twill)",
+      "Twill (Tweed)",
+      "Barleycorn (Tweed)",
+      "Herringbone",
+      "Houndstooth",
+      "Basket Weave",
+      "Corduroy",
+      "Flannel",
+      "Seersucker",
+      "Birds Eye",
+      "Seersucker",
+      "Other",
+    ];
+
+    collections: string[] = [
+      "Casual",
+      "Business",
+      "Ceremony",
+    ];
+    
+    filteredCols: string[];
+  
+    collectionsModel: string[] = [];
+  
+    filterCols(value: string): void {
+      this.filteredCols = this.collections.filter((item: any) => {
+        if (value) {
+          return item.toLowerCase().indexOf(value.toLowerCase()) > -1;
+        } else {
+          return false;
+        }
+      }).filter((filteredItem: any) => {
+        return this.collectionsModel ? this.collectionsModel.indexOf(filteredItem) < 0 : true;
+      });
+    }
+
 
 }
