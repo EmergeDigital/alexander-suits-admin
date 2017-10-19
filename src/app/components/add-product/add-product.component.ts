@@ -58,19 +58,19 @@ export class AddProductComponent implements OnInit {
   }
 
   next() {
-    this.uploading = true;
-    this.fileUploading = "Uploading now, please wait.";
-    this.data.uploadImage(this.uploadImg).then(response => {
-      console.log(response);
-      let arr = [];
-      arr.push(response);
-      this.imagesUploaded = arr;
-      this.uploading = false;
-      this.fileUploading = "";
-      this.fileSelectMsg = "";
-    }).catch(ex => {
-      console.log(ex);
-    });
+    // this.uploading = true;
+    // this.fileUploading = "Uploading now, please wait.";
+    // this.data.uploadImage(this.uploadImg).then(response => {
+    //   console.log(response);
+    //   let arr = [];
+    //   arr.push(response);
+    //   this.imagesUploaded = arr;
+    //   this.uploading = false;
+    //   this.fileUploading = "";
+    //   this.fileSelectMsg = "";
+    // }).catch(ex => {
+    //   console.log(ex);
+    // });
   }
 
 
