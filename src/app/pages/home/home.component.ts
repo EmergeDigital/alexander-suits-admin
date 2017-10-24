@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { DataService } from "../../services/data.service";
 import { Router } from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 
@@ -11,9 +12,26 @@ import {AuthService} from '../../services/auth.service';
 export class HomeComponent implements OnInit {
 
   simpleDrop: any = null;
+  loading: boolean = true;
 
-  constructor(public auth: AuthService,  public router: Router) {
+  constructor(public auth: AuthService,  public router: Router, public data: DataService) {
+      this.loading = true;
+      this.data.getAllOrders().then(orders=>{
+        console.log(orders);
+        let pendingOrders = this.getWidgets(orders.filter(x => x.status === 'payment_processed'));
+        let processingOrders = this.getWidgets(orders.filter(x => x.status === 'processing'));
+        let shippedOrders = this.getWidgets(orders.filter(x => x.status === 'shipped'));
 
+        this.containers = [
+          new Container(0, 'Pending Orders', "panel-warning", pendingOrders),
+          new Container(1, 'Processing Orders', "panel-info", processingOrders),
+          new Container(2, 'Shipped Orders', "panel-success", shippedOrders)
+        ];
+        
+        this.loading = false;
+      });
+
+ 
    }
 
   ngOnInit() {
@@ -22,11 +40,16 @@ export class HomeComponent implements OnInit {
     this.auth.logout();
   }
 
-    containers: Array<Container> = [
-        new Container(0, 'Pending Orders', "panel-warning", [new Widget('ORD-001041', 'James Bond'), new Widget('ORD-001042', 'Farrison Hord')]),
-        new Container(1, 'Processing Orders', "panel-info", [new Widget('ORD-001046', 'Martha Steward'), new Widget('ORD-001045', 'Jimmy Carter')]),
-        new Container(2, 'Completed Orders', "panel-success", [new Widget('ORD-001043', 'Jim Carrey'), new Widget('ORD-001044', 'Oxford Jones')])
-    ];
+  getWidgets(orders) {
+    let _orders = [];
+    for(let o of orders) {
+      let _widget = new Widget(o.order_string, o.user_data.name)
+      _orders.push(_widget);
+    }
+    return _orders;
+  }
+
+    containers: Array<Container> = [];
 
     widgets: Array<Widget> = [];
     addTo($event: any) {
