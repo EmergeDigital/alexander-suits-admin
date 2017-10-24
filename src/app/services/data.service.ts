@@ -135,6 +135,20 @@ export class DataService {
         });
     }
 
+    createProduct(product): Promise<any> {
+      return new Promise((resolve, reject) => {
+          let body = product;
+          this.authHttp.post(this.API_URL + "/api/products/create", body).toPromise().then(product => {
+              const _product = product.json();
+              // this._product = _product;
+              resolve(_product);
+          }).catch(ex => {
+              reject(ex.json());
+          });
+
+      });
+    }
+
 
     /* ==============  CARTS  ============== */
 

@@ -3,6 +3,8 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { TdLoadingService } from '@covalent/core';
 
 import { DataService } from "../../services/data.service";
 
@@ -13,6 +15,11 @@ import { DataService } from "../../services/data.service";
 })
 export class AddProductComponent implements OnInit {
   product: any = {};
+  price1: any = {};
+  price2: any = {};
+  weaveDesc: string = '';
+  weaveDescOther: string = '';
+
 
   // myControl: FormControl = new FormControl();
 
@@ -27,7 +34,8 @@ export class AddProductComponent implements OnInit {
   //   // 'Accessory',
   //  ];
 
-  constructor(public data: DataService) {
+  constructor(public data: DataService, private _loadingService: TdLoadingService, private toastyService:ToastyService,
+    private toastyConfig: ToastyConfig) {
     // this.options = this.options.sort();
   }
 
@@ -58,19 +66,120 @@ export class AddProductComponent implements OnInit {
   }
 
   next() {
-    // this.uploading = true;
-    // this.fileUploading = "Uploading now, please wait.";
-    // this.data.uploadImage(this.uploadImg).then(response => {
-    //   console.log(response);
-    //   let arr = [];
-    //   arr.push(response);
-    //   this.imagesUploaded = arr;
-    //   this.uploading = false;
-    //   this.fileUploading = "";
-    //   this.fileSelectMsg = "";
-    // }).catch(ex => {
-    //   console.log(ex);
-    // });
+    if(this.fileSelectMsg !== '') {
+      this._loadingService.register('overlayStarSyntax');
+      let flag = this.checkData();
+      if(flag) {
+        this.uploading = true;
+        this.fileUploading = "Uploading now, please wait.";
+        this.data.uploadImage(this.uploadImg).then(response => {
+          console.log(response);
+          let arr = [];
+          arr.push(response);
+          this.imagesUploaded = arr;
+          let product = this.product;
+          product.categories = this.catsModel;
+          product.print = this.selectedPrint;
+          product.print_type = this.selectedPrint_type;
+          product.primary_colour = this.coloursModel[0];
+          product.secondary_colours = this.coloursModel2;
+          product.fabric_type = this.fabricType;
+          product.fabric_subtype = this.fabricSubcategory;
+          product.weaves_desc_suit = this.weaveDescOther;
+          product.weaves_desc_shirt = this.weaveDesc;
+          product.collections = this.collectionsModel;
+          if(!!product.price && product.price > 0) {} else {
+            product.price_category_suits = this.price1;
+            product.price_category_shirts = this.price2;
+          }
+          product.image_urls = arr;
+          this.data.createProduct(product).then(created_product => {
+            this.clearData();
+            console.log(created_product);
+            if(!!created_product) {
+              this.success("Products created", "All products have been processed and created");
+            } else {
+              this.failed("Product creation failed", "Unknown error, empty response");
+            }
+          })
+        }).catch(ex => {
+          this.failed("Product creation failed", ex);
+          console.log(ex);
+          this.uploading = false;
+        });
+      } else {
+
+      }
+    } else {
+      this.failed("Product creation failed", "Please select an image.");
+      //error select an image
+    }
+  }
+
+  checkData(): boolean {
+    // console.log(!(!!this.product.price));
+    // console.log(this.isEmpty(this.price1),this.price2.toString() === '{}');
+    if(!(!!this.product.name)) {
+      this.failed("Product creation failed", "Please enter a name.");
+      return false;
+    } else if(!(!!this.product.description)) {
+      this.failed("Product creation failed", "Please enter a short description.");
+      return false;
+    } else if(this.catsModel.length <= 0) {
+      this.failed("Product creation failed", "Please select product categories.");
+      return false;
+    } else if(this.collectionsModel.length <= 0) {
+      this.failed("Product creation failed", "Please select product collections.");
+      return false;
+    } else if((!(!!this.product.price) || this.product.price === 0) && this.isEmpty(this.price1) && this.isEmpty(this.price2)) {
+      this.failed("Product creation failed", "Please enter a price, do you want this to be free?");
+      return false;
+    }
+    return true;
+  }
+
+  isEmpty(obj): boolean {
+    return Object.keys(obj).length === 0;
+  }
+
+  clearData() {
+    this.uploading = false;
+    this.fileUploading = "";
+    this.fileSelectMsg = "";
+    this.product = {};
+    this.catsModel = [];
+    this.selectedPrint = '';
+    this.selectedPrint_type = '';
+    this.coloursModel = [];
+    this.coloursModel2 = [];
+    this.fabricType = '';
+    this.fabricSubcategory = '';
+    this.weaveDescOther = '';
+    this.weaveDesc = '';
+    this.collectionsModel = [];
+    this.price1 = {};
+    this.price2 = {};
+
+  }
+
+  failed(title, error) {
+    var toastOptions:ToastOptions = {
+     title: title,
+     msg: error
+    };
+
+    this.toastyService.warning(toastOptions);
+    this._loadingService.resolve('overlayStarSyntax');
+  }
+
+  success(title, message) {
+    var toastOptions:ToastOptions = {
+     title: title,
+     msg: message
+    };
+
+    this.toastyService.success(toastOptions);
+    this._loadingService.resolve('overlayStarSyntax');
   }
 
 
@@ -169,7 +278,7 @@ export class AddProductComponent implements OnInit {
   ];
 
   selPrint(): boolean {
-    console.log(this.selectedPrint);
+    // console.log(this.selectedPrint);
     switch(this.selectedPrint) {
       case 'Check':
         return true;
@@ -235,7 +344,7 @@ export class AddProductComponent implements OnInit {
   colourAddition: boolean = true;
 
   colourAdded() {
-    console.log(this.coloursModel);
+    // console.log(this.coloursModel);
     if (this.coloursModel.length >= 1) {
       this.colourAddition = false;
     }
@@ -266,10 +375,11 @@ export class AddProductComponent implements OnInit {
   }
 
   fabricType: string = '';
+  fabricSubcategory: string = '';
   
     fabric_types: string[] = [
       "Cotton",
-      "Cotton Blen",
+      "Cotton Blend",
       "Linen",
       "Linen Blend",
       "Wool",

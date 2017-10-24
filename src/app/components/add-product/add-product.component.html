@@ -1,4 +1,4 @@
-<div class="container-fluid animated fadeIn">
+<div class="container-fluid animated fadeIn" *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'primary'">
   <div class="product-add-container" *ngIf="!isLoading">
     <h1>Add Product</h1>
     <div class="product-add-form">
@@ -95,7 +95,7 @@
 
         <div *ngIf="selType()">
           <mat-form-field class="p-full-width">
-            <mat-select placeholder="Print Type" class="p-full-width" [(ngModel)]="fabricSubcategory" name="fsc">
+            <mat-select placeholder="Fabric Subtype" class="p-full-width" [(ngModel)]="fabricSubcategory" name="fsc">
               <div *ngIf="fabricType === 'Cotton Blend'"><mat-option *ngFor="let _cotton of _cottons" [value]="_cotton">
                 {{ _cotton }}
               </mat-option></div>
@@ -144,11 +144,11 @@
         <p>Descriptions</p>
 
         <mat-form-field class="p-full-width">
-          <textarea matInput placeholder="Description Short" [(ngModel)]="product.desc" name="ds">{{product.desc}}</textarea>
+          <textarea matInput placeholder="Description Short" [(ngModel)]="product.description" name="ds">{{product.description}}</textarea>
         </mat-form-field>
         
         <mat-form-field class="p-full-width">
-          <textarea matInput placeholder="Description Long" [(ngModel)]="product.desc_long" name="dl">{{product.desc_long}}</textarea>
+          <textarea matInput placeholder="Description Long" [(ngModel)]="product.description_long" name="dl">{{product.description_long}}</textarea>
         </mat-form-field>
 
         <hr>
@@ -157,7 +157,7 @@
         <div *ngIf="catsModel.includes('Suit') || catsModel.includes('Jacket') || catsModel.includes('Trousers') || catsModel.includes('Waistcoat')">
           <mat-form-field class="p-full-width" style="padding-top: 10px;">
             <mat-select placeholder="Suit Price Category" [(ngModel)]="price1" name="price1" class="p-full-width">
-              <mat-option *ngFor="let price of prices" [value]="price.id">{{ price.name }}</mat-option>
+              <mat-option *ngFor="let price of prices" [value]="price">{{ price.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -165,7 +165,7 @@
         <div *ngIf="catsModel.includes('Shirt')">
           <mat-form-field class="p-full-width">
             <mat-select placeholder="Shirt Price Category" [(ngModel)]="price2" name="price2" class="p-full-width">
-              <mat-option *ngFor="let price of prices2" [value]="price.id">{{ price.name }}</mat-option>
+              <mat-option *ngFor="let price of prices2" [value]="price">{{ price.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -177,14 +177,14 @@
         </mat-form-field>
 
         <mat-form-field class="p-full-width">
-          <input matInput type="number" name="stock" value=""  placeholder="Current Stock (m)"  [(ngModel)]="product.stock" >
+          <input matInput type="number" name="stock" value=""  placeholder="Current Stock (m)"  [(ngModel)]="product.estimated_stock_remaining" >
         </mat-form-field>
 
         <div style="text-align: left;">
           <p>Main Image: {{fileUploading}}</p>
-          <p *ngIf="fileSelectMsg">
+          <!-- <p *ngIf="fileSelectMsg">
             Click again to upload before submitting
-          </p>
+          </p> -->
           <td-file-upload accept=".jpg, .png, .jpeg" defaultColor="primary" activeColor="warn" cancelColor="primary" #singleFileUpload
           (select)="selectEvent($event)" (cancel)="cancelEvent()"  [(disabled)]="uploading" >
             <mat-icon>file_upload</mat-icon><span>1 file selected</span>
