@@ -15,7 +15,7 @@
                         <div class="panel-body">
                             <ul class="list-group">
                                 <li *ngFor="let widget of container.widgets; let x = index" class="list-group-item"
-                                    dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation"
+                                    dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation"  (onDropSuccess)="addTo($event, container.status)"
                                     [dragData]="widget"><div>
                                       {{widget.name}}<br />
                                       <strong>{{widget.person}}</strong>
