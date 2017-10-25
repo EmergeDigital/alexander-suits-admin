@@ -3,6 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from "../../services/data.service";
 import { Router } from '@angular/router';
 import {AuthService} from '../../services/auth.service';
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { TdLoadingService } from '@covalent/core';
+import { ViewContainerRef } from '@angular/core';
+import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +18,8 @@ export class HomeComponent implements OnInit {
   // simpleDrop: any = null;
   loading: boolean = true;
 
-  constructor(public auth: AuthService,  public router: Router, public data: DataService) {
+  constructor(public auth: AuthService,  public router: Router, public data: DataService, private _loadingService: TdLoadingService, private toastyService:ToastyService,
+    private toastyConfig: ToastyConfig, private _dialogService: TdDialogService,private _viewContainerRef: ViewContainerRef) {
       this.loading = true;
       this.data.getAllOrders().then(orders=>{
         console.log(orders);
@@ -49,19 +54,51 @@ export class HomeComponent implements OnInit {
     return _orders;
   }
 
-    containers: Array<Container> = [];
+  containers: Array<Container> = [];
 
-    widgets: Array<Widget> = [];
+  widgets: Array<Widget> = [];
 
-    addTo($event: any, status) {
-      console.log($event, status);
-      if($event.status !== status) {
-        console.log('status changed');
-        $event.status = status;
-        //Call data.changeStatus
+  addTo($event: any, status) {
+    console.log($event, status);
+    if($event.status !== status) {
+      this._loadingService.register('overlayStarSyntax');
+      console.log('status changed');
+      $event.status = status;
+      //Call data.updateStatus
+      if(status === 'shipped') {
+          this._dialogService.openPrompt({
+            message: 'Please enter the shipping number',
+            disableClose: true,
+            viewContainerRef: this._viewContainerRef, //OPTIONAL
+            title: 'Shipping Number', //OPTIONAL, hides if not provided
+            value: '', //OPTIONAL
+            cancelButton: 'Cancel', //OPTIONAL, defaults to 'CANCEL'
+            acceptButton: 'Submit', //OPTIONAL, defaults to 'ACCEPT'
+          }).afterClosed().subscribe((newValue: string) => {
+            if (newValue) {
+              // DO SOMETHING
+              this.updateStatus(status, $event.name, newValue);
+            } else {
+              this.updateStatus(status, $event.name, null);
+              // DO SOMETHING ELSE
+            }
+          });
+      } else {
+        this.updateStatus(status, $event.name, null);
       }
-      
     }
+    
+  }
+
+  updateStatus(status, order_string, tracking_number) {
+    this.data.updateStatus(status, order_string, tracking_number).then(order => {
+      this._loadingService.resolve('overlayStarSyntax');
+      console.log(order);
+    }).catch(ex => {        
+      this._loadingService.resolve('overlayStarSyntax');
+      console.log("An error occurred", ex);
+    });
+  }
 
 }
 

@@ -420,6 +420,33 @@ export class DataService {
         });
     }
 
+    updateStatus(status, order_string, tracking_number): Promise<Order> {
+      return new Promise((resolve, reject) => {
+        let body = {};
+        
+        if(!!tracking_number) {
+          body = { 
+            status: status,
+            order_string: order_string,
+            delivery: {
+              tracking_number: tracking_number
+            }
+          };
+        } else {
+          body = { 
+            status: status,
+            order_string: order_string
+          };
+        }
+        this.authHttp.post(this.API_URL + "/api/order/update_status", body).toPromise().then(order => {
+            const _order = order.json();
+            resolve(_order);
+        }).catch(ex => {
+            reject(ex);
+        });
+      });
+    }
+
     getUsers(): Promise<User[]> {
         return new Promise((resolve, reject) => {
           this.authHttp.get(this.API_URL + "/api/user/all").toPromise().then(user => {

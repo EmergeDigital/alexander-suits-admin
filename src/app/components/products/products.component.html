@@ -24,6 +24,9 @@
       [(ngModel)]="selectedRows"
       [sortOrder]="sortOrder"
       (sortChange)="sort($event)">
+      <ng-template tdDataTableTemplate="edit" let-value="value" let-row="row" let-column="column" style="text-align: center;">
+          <button mat-button color="primary" (click)="editProduct(row)">{{'Edit Product'}}</button>
+      </ng-template>
     </td-data-table>
     <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
       <h3>No results to display.</h3>

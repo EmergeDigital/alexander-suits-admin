@@ -17,8 +17,9 @@ export class ProductsComponent implements OnInit {
     { name: 'name',  label: 'Product Name', sortable: true, width: 200 },
     { name: 'description', label: 'Description', filter: true, width: 200  },
     { name: 'category', label: 'Category', filter: true, sortable: true, hidden: false },
+    { name: 'product_SKU', label: 'SKU'},
     { name: 'price', label: 'Price (ZAR)', numeric: true, format: DECIMAL_FORMAT, sortable: true },
-    { name: 'product_SKU', label: 'SKU'}
+    { name: 'edit', label: '', sortable: false, filter: false},
   ];
 
   data: any[];
@@ -52,6 +53,10 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  editProduct(row) {
+    console.log(row);
+   }
 
   sort(sortEvent: ITdDataTableSortChangeEvent): void {
     this.sortBy = sortEvent.name;

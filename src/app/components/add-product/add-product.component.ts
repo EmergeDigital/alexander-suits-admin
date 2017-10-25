@@ -422,7 +422,7 @@ export class AddProductComponent implements OnInit {
         case 'Cotton Blend':
           return true;
         
-        case 'Linin Blend':
+        case 'Linen Blend':
           return true;
   
         case 'Wool Blend':
