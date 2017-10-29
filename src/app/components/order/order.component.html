@@ -1,0 +1,189 @@
+<div class="order-top animated fadeIn">
+  <div class="container-fluid">
+    <div class="order-title" >
+      <h1>Order</h1>
+      <div class="order-inner" *ngIf="!isLoading">
+        <p>{{order.order_string}}</p>
+        <br /><br />
+        <div class="row">
+          <div dnd-sortable-container [sortableData]="containers" [dropZones]="['container-dropZone']">
+              <div class="col-sm-6 col-md-3"
+                      *ngFor="let container of containers; let i = index"
+                      dnd-sortable [sortableIndex]="i" [dragEnabled]="dragOperation">
+                  <div class="panel {{container.panel}}"
+                      dnd-sortable-container [sortableData]="container.widgets" [dropZones]="['widget-dropZone']">
+                      <div class="panel-heading">
+                          {{container.name}}
+                      </div>
+                      <div class="panel-body">
+                          <ul class="list-group">
+                              <li *ngFor="let widget of container.widgets; let x = index" class="list-group-item"
+                                  dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation"
+                                  [dragData]="widget"><div>
+                                      {{widget.name}}<br />
+                                      {{widget.category}}<br>
+                                      <strong>R{{widget.price  | number:'1.2-2'}}</strong>
+                                      <div>
+                                      </div>
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+        <div class='order-bottom'>
+          <h3>Order details:</h3>
+          <form class="p-form">
+            <mat-form-field class="p-full-width">
+              <input matInput name="name" value="" disabled="true" placeholder="Client Name"  [(ngModel)]="order.user_data.name" >
+            </mat-form-field>
+            <mat-form-field class="p-full-width">
+              <!-- <span matPrefix><b>ZAR</b> &nbsp;</span> -->
+              <input matInput name="total" disabled="true" placeholder="Order Total"  value="R{{order.total  | number:'1.2-2'}}">
+            </mat-form-field>
+            <mat-form-field class="p-full-width">
+              <input matInput name="delivery" value="" disabled="true" placeholder="Delivery"  [(ngModel)]="order.delivery_data.method" >
+            </mat-form-field>
+            <mat-form-field class="p-full-width">
+              <mat-select placeholder="Set status" [(ngModel)]="order.status" (change)="changeStatus(order)" name="status">
+                <mat-option *ngFor="let status of statuses" [value]="status.value">
+                  {{ status.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br><hr><br><div *ngIf="(order.address_data | json) != '{}'">
+              <h4>Address</h4><br>
+              {{order.address_data.addressL1}}, 
+              {{order.address_data.addressL2}}<br>
+              {{order.address_data.city}}, 
+              {{order.address_data.province}}, 
+              {{order.address_data.postal_code}}
+              <div *ngIf="!!order.delivery_data.delivery_instructions">
+                <b>Instructions: </b>{{order.delivery_data.delivery_instructions}}
+              </div>
+            </div><br><hr><br>
+            <div *ngIf="!!order.user_data.other_data"  style="text-align: center;">
+              <div *ngIf="measurements">
+                <h4>Measurements(cm)</h4><br>
+                <div class='row'>
+                  <div class="col-sm-6">
+                      <b>Height:</b> {{measurements.height}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Chest:</b> {{measurements.chest}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Halfback:</b> {{measurements.halfback}}
+                  </div>
+
+                  <div class="col-sm-6">
+                    <b>Biceps:</b> {{measurements.biceps}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Stomach:</b> {{measurements.stomach}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Seat:</b> {{measurements.seat}}
+                  </div>
+
+                  <div class="col-sm-6">
+                    <b>Thigh:</b> {{measurements.thigh}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Halfwaist:</b> {{measurements.halfwaist}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Backlength:</b> {{measurements.backlength}}
+                  </div>
+
+                  <div class="col-sm-6">
+                    <b>Waist:</b> {{measurements.waist}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Outside Seamline:</b> {{measurements.outside_seamline}}
+                  </div>
+                  <div class="col-sm-6">
+                      <b>Inside Seamline:</b> {{measurements.inside_seamline}}
+                  </div>
+                </div><br><hr>
+                <div style="padding-top: 20px;">
+                  <b>Body Type:</b> {{measurements.body_type.title}}<br><br>
+
+                  <img src="{{measurements.body_type.img}}" style="width: 100%; height: auto; max-width: 250px;">
+                </div>
+                <br><hr>
+
+                <div style="padding-top: 20px;" *ngIf="measurements.uploadedImg">
+                  <b>Uploaded Image:</b><br><br>
+
+                  <img src="{{measurements.uploadedImg}}" style="width: 100%; height: auto; max-width: 300px;">
+                </div>
+                <div style="padding-top: 20px;" *ngIf="!measurements.uploadedImg">
+                  <b>No image uploaded</b><br><br>
+                </div>
+              </div>
+              <div *ngIf="!measurements">
+                <b>No measurements entered</b>
+              </div>
+            </div>
+          </form>
+          <!-- <mat-form-field class="p-full-width">
+            <input matInput type="number" name="stock" value=""  placeholder="Current Stock (m)"  [(ngModel)]="product.estimated_stock_remaining" >
+          </mat-form-field> -->
+        </div>
+        <!-- <div class="row">
+          <div class="col-sm-6 col-xl-4"  *ngFor="let product of order.products" style="margin-bottom: 15px;">
+            <mat-card class="example-card">
+              <mat-card-header style="text-align: left;">
+                <div mat-card-avatar style="background-image: url('assets/red.jpg'); background-size: cover;"></div>
+                <mat-card-title>{{product.name}}</mat-card-title>
+                <mat-card-subtitle>{{product.description}}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image src="assets/casual-suit.png" alt="Suit" class="product-img">
+              <mat-card-content style="padding-top: 20px;">
+                <div class="row">
+
+                  <div class="col-6">
+                    <mat-form-field class="s-full-width">
+                      <input matInput placeholder="Amount" value="" disabled="true" [(ngModel)]="product.count" name="amount">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field class="s-full-width">
+                      <input matInput placeholder="Subtotal" value="" disabled="true" [ngModel]="product.price*product.count | number:'1.2-2'" (ngModelChange)="product.price=$event" name="price">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-12">
+                    <mat-form-field class="s-full-width" *ngIf="product.status">
+                      <input matInput placeholder="Status" value="" disabled="true"  (ngModelChange)="product.status=$event" [ngModel]="product.status | makeEnglish" name="status">
+                    </mat-form-field>
+                    <mat-form-field class="s-full-width" *ngIf="!product.status">
+                      <input matInput placeholder="Status" value="Processing" disabled="true" name="status2">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-card-content>
+               <mat-card-actions style="text-align: right;">
+                <button mat-button disabled="{{isLoading}}" (click)="removeItem(product)">Remove</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div> -->
+        <!--
+        TODO: delivery details
+        TODO: status of each item
+        -->
+
+      </div>
+      <div class="loading" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+  </div>
+</div>

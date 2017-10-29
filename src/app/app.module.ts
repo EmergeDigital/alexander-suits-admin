@@ -13,6 +13,7 @@ import {HomeLayoutComponent} from "./layouts/home-layout/home-layout.component";
 import {ToastyModule} from 'ng2-toasty';
 import {ReactiveFormsModule} from '@angular/forms';
 
+import { MakeEnglish } from './pipes/makeEnglish.pipe'; // import our pipe here
 
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {DataService} from "./services/data.service";
@@ -46,6 +47,7 @@ import { OrdersComponent } from './components/orders/orders.component';
 import { UsersComponent } from './components/users/users.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
+import { OrderComponent } from './components/order/order.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -66,7 +68,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         OrdersComponent,
         UsersComponent,
         AddProductComponent,
-        TransactionsComponent
+        TransactionsComponent,
+        MakeEnglish,
+        OrderComponent
     ],
     imports: [
         BrowserModule,

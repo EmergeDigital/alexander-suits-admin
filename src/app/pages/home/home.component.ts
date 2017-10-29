@@ -7,6 +7,7 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import { TdLoadingService } from '@covalent/core';
 import { ViewContainerRef } from '@angular/core';
 import { TdDialogService } from '@covalent/core';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +33,9 @@ export class HomeComponent implements OnInit {
           new Container(1, 'Processing Orders', 'processing', "panel-info", processingOrders),
           new Container(2, 'Shipped Orders', 'shipped', "panel-success", shippedOrders)
         ];
-        
+        Observable.interval(1000 * 2).subscribe(x => {
+          this.checkStatuses();
+        });
         this.loading = false;
       });
 
@@ -48,7 +51,7 @@ export class HomeComponent implements OnInit {
   getWidgets(orders, status) {
     let _orders = [];
     for(let o of orders) {
-      let _widget = new Widget(o.order_string, o.user_data.name, status)
+      let _widget = new Widget(o.order_string, o.user_data.name, status, o.id)
       _orders.push(_widget);
     }
     return _orders;
@@ -90,14 +93,72 @@ export class HomeComponent implements OnInit {
     
   }
 
+  checkStatuses() {
+    for(let container of this.containers) {
+     //  console.log(container);
+       for(let widget of container.widgets) {
+         let status = container.status;
+
+         if(widget.status !== status) {
+           console.log(widget);
+           widget.status = status;
+           if(status === 'shipped') {
+            this._dialogService.openPrompt({
+              message: 'Please enter the shipping number for order ' + widget.name,
+              disableClose: true,
+              viewContainerRef: this._viewContainerRef, //OPTIONAL
+              title: 'Shipping Number', //OPTIONAL, hides if not provided
+              value: '', //OPTIONAL
+              cancelButton: 'Cancel', //OPTIONAL, defaults to 'CANCEL'
+              acceptButton: 'Submit', //OPTIONAL, defaults to 'ACCEPT'
+            }).afterClosed().subscribe((newValue: string) => {
+              if (newValue) {
+                // DO SOMETHING
+                this.updateStatus(status, widget.name, newValue);
+              } else {
+                this.updateStatus(status, widget.name, null);
+                // DO SOMETHING ELSE
+              }
+            });
+        } else {
+          this.updateStatus(status, widget.name, null);
+        }
+           //update product status
+         }
+       }
+    }
+  }
+
   updateStatus(status, order_string, tracking_number) {
     this.data.updateStatus(status, order_string, tracking_number).then(order => {
-      this._loadingService.resolve('overlayStarSyntax');
+      // this._loadingService.resolve('overlayStarSyntax');
+      this.success("Order updated", "Order status has been changed successfully");
       console.log(order);
     }).catch(ex => {        
-      this._loadingService.resolve('overlayStarSyntax');
+      // this._loadingService.resolve('overlayStarSyntax');
       console.log("An error occurred", ex);
+      this.failed("An error occurred", ex);
     });
+  }
+
+  failed(title, error) {
+    var toastOptions:ToastOptions = {
+     title: title,
+     msg: error
+    };
+
+    this.toastyService.warning(toastOptions);
+    this._loadingService.resolve('overlayStarSyntax');
+  }
+
+  success(title, message) {
+    var toastOptions:ToastOptions = {
+     title: title,
+     msg: message
+    };
+
+    this.toastyService.success(toastOptions);
+    this._loadingService.resolve('overlayStarSyntax');
   }
 
 }
@@ -107,5 +168,5 @@ class Container {
 }
 
 class Widget {
-  constructor(public name: string, public person: string, public status: string) {}
+  constructor(public name: string, public person: string, public status: string, public id: string) {}
 }

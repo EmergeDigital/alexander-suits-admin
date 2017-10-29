@@ -143,7 +143,7 @@ export class DataService {
               // this._product = _product;
               resolve(_product);
           }).catch(ex => {
-              reject(ex.json());
+              reject(ex);
           });
 
       });
@@ -387,7 +387,7 @@ export class DataService {
               this.current_order = _response;
               resolve(_response);
           }).catch(ex => {
-              reject(ex);
+            reject(ex);
           });
         } else {
           reject("no_auth");
@@ -404,7 +404,7 @@ export class DataService {
               const _orders = orders.json();
               resolve(_orders);
           }).catch(ex => {
-              reject(ex);
+            reject(ex);
           });
         });
     }
@@ -415,9 +415,24 @@ export class DataService {
               const _orders = orders.json();
               resolve(_orders);
           }).catch(ex => {
-              reject(ex);
+            reject(ex);
           });
         });
+    }
+
+
+    getOrderById(id): Promise<Order> {
+      return new Promise((resolve, reject) => {
+        let params = {
+          id: id
+        };
+        this.authHttp.get(this.API_URL + "/api/order", {params: params}).toPromise().then(order => {
+            const _order = order.json();
+            resolve(_order);
+        }).catch(ex => {
+            reject(ex);
+        });
+      });
     }
 
     updateStatus(status, order_string, tracking_number): Promise<Order> {
@@ -453,7 +468,7 @@ export class DataService {
               const _user = user.json();
               resolve(_user);
           }).catch(ex => {
-              reject(ex);
+            reject(ex);
           });
         });
     }

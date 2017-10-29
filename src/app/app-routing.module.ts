@@ -12,6 +12,7 @@ import { UsersComponent } from './components/users/users.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import {LoginLayoutComponent} from "./layouts/login-layout/login-layout.component";
 import {HomeLayoutComponent} from "./layouts/home-layout/home-layout.component";
+import { OrderComponent } from './components/order/order.component';
 
 const routes: Routes = [
 
@@ -51,6 +52,10 @@ const routes: Routes = [
             {
                 path: 'add-product',
                 component: AddProductComponent   // {3}
+            },
+            {
+                path: 'order/:id',
+                component: OrderComponent
             },
         ]
     },

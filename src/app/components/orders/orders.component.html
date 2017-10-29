@@ -1,4 +1,4 @@
-<div class="container-fluid" style="padding: 40px;">
+<div class="container-fluid" style="padding: 40px;"  *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'primary'">
   <div class="card-lg animated fadeIn" *ngIf="!loading">
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
       <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
@@ -54,7 +54,6 @@
       [selectable]="selectable"
       [clickable]="clickable"
       [multiple]="multiple"
-      [sortable]="true"
       [sortBy]="sortBy"
       [(ngModel)]="selectedRows"
       [sortOrder]="sortOrder"
@@ -68,7 +67,7 @@
           </mat-select>
       </ng-template>
       <ng-template tdDataTableTemplate="view" let-value="value" let-row="row" let-column="column" style="text-align: center;">
-          <button mat-button color="primary" (click)="viewOrder(row)">{{'View Order'}}</button>
+          <button mat-button [routerLink]="['/order', row.id]" color="primary">{{'View Order'}}</button>
       </ng-template>
     </td-data-table>
     <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">

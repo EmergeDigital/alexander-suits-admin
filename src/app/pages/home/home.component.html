@@ -1,26 +1,27 @@
 <div class="dashboard-home">
     <div class="container-fluid animated fadeIn" *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'primary'">
         <h1>Dashboard</h1>
-        <h4>Drag-and-drop Orders demo</h4><br />
+        <h4>Drag-and-drop Orders</h4><br />
         <div class="row" *ngIf="!loading">
-                <div dnd-sortable-container [sortableData]="containers" [dropZones]="['container-dropZone']"  (onDropSuccess)="addTo($event, container.status)">
+                <!-- (onDropSuccess)="addTo($event, container.status)" -->
+                <div dnd-sortable-container [sortableData]="containers" [dropZones]="['container-dropZone']">
                     <div class="col-sm-4"
                             *ngFor="let container of containers; let i = index"
-                            dnd-sortable [sortableIndex]="i" [dragEnabled]="dragOperation"   (onDropSuccess)="addTo($event, container.status)">
+                            dnd-sortable [sortableIndex]="i" [dragEnabled]="dragOperation" >
                         <div class="panel {{container.panel}}"
-                            dnd-sortable-container [sortableData]="container.widgets" [dropZones]="['widget-dropZone']"  (onDropSuccess)="addTo($event, container.status)">
+                            dnd-sortable-container [sortableData]="container.widgets" [dropZones]="['widget-dropZone']">
                             <div class="panel-heading">
                                 {{container.name}}
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
                                     <li *ngFor="let widget of container.widgets; let x = index" class="list-group-item"
-                                        dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation"  (onDropSuccess)="addTo($event, container.status)"
+                                        dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation" 
                                         [dragData]="widget"><div>
                                             {{widget.name}}<br />
                                             <strong>{{widget.person}}</strong>
                                             <div>
-                                            <button mat-icon-button>
+                                            <button mat-icon-button  [routerLink]="['/order', widget.id]" >
                                                 <mat-icon>edit</mat-icon>
                                             </button>
                                             </div>
