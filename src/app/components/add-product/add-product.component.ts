@@ -5,6 +5,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import { TdLoadingService } from '@covalent/core';
+import { Ng2ImgToolsService } from 'ng2-img-tools';
 
 import { DataService } from "../../services/data.service";
 
@@ -35,7 +36,7 @@ export class AddProductComponent implements OnInit {
   //  ];
 
   constructor(public data: DataService, private _loadingService: TdLoadingService, private toastyService:ToastyService,
-    private toastyConfig: ToastyConfig) {
+    private toastyConfig: ToastyConfig, private ng2ImgToolsService: Ng2ImgToolsService) {
     // this.options = this.options.sort();
   }
 
@@ -52,55 +53,91 @@ export class AddProductComponent implements OnInit {
   //  }
 
   fileSelectMsg: string = '';
+  fileSelectMsg2: string = '';
   isLoading: boolean = false;
   uploadImg: any = {};
   uploading: boolean = false;
   fileUploading: string = '';
   imagesUploaded: string[] = [];
   canAddChips: boolean = false;
+  thumbnail: any = {};
 
   selectEvent(file: File): void {
+    this._loadingService.register('overlayStarSyntax');
     this.fileSelectMsg = file.name;
     this.uploadImg = file;
     this.imagesUploaded = [];
+    this.ng2ImgToolsService.resize([file], 180, 180).subscribe(result => {
+        //all good, result is a file
+        this._loadingService.resolve('overlayStarSyntax');
+        this.thumbnail = result;
+        this.fileSelectMsg2 = result.name;
+        console.info(file);
+        console.info(result);
+    }, error => {
+        this.cancelEvent();
+        this.failed("Thumbnail Creation Failed", "Please try select your image again");
+        this._loadingService.resolve('overlayStarSyntax');
+        //something went wrong 
+        //use result.compressedFile or handle specific error cases individually
+    });
+  }
+
+  uploadShit() {
+    this._loadingService.register('overlayStarSyntax');
+    this.data.uploadImage(this.uploadImg).then(response => {
+      this.data.uploadImage(this.thumbnail).then(_response => {
+        console.log(_response);
+        this._loadingService.resolve('overlayStarSyntax');
+        
+      })
+    }).catch(ex => {
+      this.failed("Product creation failed", ex);
+      console.log(ex);
+      this.uploading = false;
+      this._loadingService.resolve('overlayStarSyntax');
+    });
   }
 
   next() {
-    if(this.fileSelectMsg !== '') {
+    if(this.fileSelectMsg !== '' && this.fileSelectMsg2 !== '') {
       this._loadingService.register('overlayStarSyntax');
       let flag = this.checkData();
       if(flag) {
         this.uploading = true;
         this.fileUploading = "Uploading now, please wait.";
         this.data.uploadImage(this.uploadImg).then(response => {
-          console.log(response);
-          let arr = [];
-          arr.push(response);
-          this.imagesUploaded = arr;
-          let product = this.product;
-          product.categories = this.catsModel;
-          product.print = this.selectedPrint;
-          product.print_type = this.selectedPrint_type;
-          product.primary_colour = this.coloursModel[0];
-          product.secondary_colours = this.coloursModel2;
-          product.fabric_type = this.fabricType;
-          product.fabric_subtype = this.fabricSubcategory;
-          product.weaves_desc_suit = this.weaveDescOther;
-          product.weaves_desc_shirt = this.weaveDesc;
-          product.collections = this.collectionsModel;
-          if(!!product.price && product.price > 0) {} else {
-            product.price_category_suits = this.price1;
-            product.price_category_shirts = this.price2;
-          }
-          product.image_urls = arr;
-          this.data.createProduct(product).then(created_product => {
-            this.clearData();
-            console.log(created_product);
-            if(!!created_product) {
-              this.success("Products created", "All products have been processed and created");
-            } else {
-              this.failed("Product creation failed", "Unknown error, empty response");
+          this.data.uploadImage(this.thumbnail).then(_response => {
+            console.log(response, _response);
+            let arr = [];
+            arr.push(_response);
+            arr.push(response);
+            this.imagesUploaded = arr;
+            let product = this.product;
+            product.categories = this.catsModel;
+            product.print = this.selectedPrint;
+            product.print_type = this.selectedPrint_type;
+            product.primary_colour = this.coloursModel[0];
+            product.secondary_colours = this.coloursModel2;
+            product.fabric_type = this.fabricType;
+            product.fabric_subtype = this.fabricSubcategory;
+            product.weaves_desc_suit = this.weaveDescOther;
+            product.weaves_desc_shirt = this.weaveDesc;
+            product.collections = this.collectionsModel;
+            if(!!product.price && product.price > 0) {} else {
+              product.price_category_suits = this.price1;
+              product.price_category_shirts = this.price2;
             }
+            product.image_urls = arr;
+            this.data.createProduct(product).then(created_product => {
+              this.clearData();
+              console.log(created_product);
+              if(!!created_product) {
+                this.success("Products created", "All products have been processed and created");
+              } else {
+                this.failed("Product creation failed", "Unknown error, empty response");
+              }
+            })
           })
         }).catch(ex => {
           this.failed("Product creation failed", ex);
@@ -146,6 +183,8 @@ export class AddProductComponent implements OnInit {
     this.uploading = false;
     this.fileUploading = "";
     this.fileSelectMsg = "";
+    this.fileSelectMsg2 = '';
+    this.thumbnail = {};
     this.product = {};
     this.catsModel = [];
     this.selectedPrint = '';
@@ -185,6 +224,8 @@ export class AddProductComponent implements OnInit {
 
   cancelEvent(): void {
     this.fileSelectMsg = '';
+    this.fileSelectMsg2 = '';
+    this.thumbnail = {};
     this.uploadImg = {};
     this.imagesUploaded = null;
   }

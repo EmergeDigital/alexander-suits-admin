@@ -39,6 +39,7 @@ import { CovalentDialogsModule } from '@covalent/core';
 //Import all material.io components here
 import {MaterialComponents} from './mods/material.module';
 import {DndModule} from 'ng2-dnd';
+import { Ng2ImgToolsModule } from 'ng2-img-tools'; // <-- import the module
 
 import { SidenavComponent } from './partials/sidenav/sidenav.component';
 import {Http, Headers, RequestOptions} from '@angular/http';
@@ -78,6 +79,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         HttpModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        Ng2ImgToolsModule,
         ToastyModule.forRoot(),
         MaterialComponents,
         DndModule.forRoot(),
