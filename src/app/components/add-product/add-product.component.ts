@@ -67,7 +67,7 @@ export class AddProductComponent implements OnInit {
     this.fileSelectMsg = file.name;
     this.uploadImg = file;
     this.imagesUploaded = [];
-    this.ng2ImgToolsService.resize([file], 180, 180).subscribe(result => {
+    this.ng2ImgToolsService.resizeExactCrop([file], 180, 180).subscribe(result => {
         //all good, result is a file
         this._loadingService.resolve('overlayStarSyntax');
         this.thumbnail = result;
@@ -83,21 +83,21 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  uploadShit() {
-    this._loadingService.register('overlayStarSyntax');
-    this.data.uploadImage(this.uploadImg).then(response => {
-      this.data.uploadImage(this.thumbnail).then(_response => {
-        console.log(_response);
-        this._loadingService.resolve('overlayStarSyntax');
+  // uploadShit() {
+  //   this._loadingService.register('overlayStarSyntax');
+  //   this.data.uploadImage(this.uploadImg).then(response => {
+  //     this.data.uploadImage(this.thumbnail).then(_response => {
+  //       console.log(_response);
+  //       this._loadingService.resolve('overlayStarSyntax');
         
-      })
-    }).catch(ex => {
-      this.failed("Product creation failed", ex);
-      console.log(ex);
-      this.uploading = false;
-      this._loadingService.resolve('overlayStarSyntax');
-    });
-  }
+  //     })
+  //   }).catch(ex => {
+  //     this.failed("Product creation failed", ex);
+  //     console.log(ex);
+  //     this.uploading = false;
+  //     this._loadingService.resolve('overlayStarSyntax');
+  //   });
+  // }
 
   next() {
     if(this.fileSelectMsg !== '' && this.fileSelectMsg2 !== '') {
