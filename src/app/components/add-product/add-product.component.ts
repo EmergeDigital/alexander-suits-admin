@@ -61,6 +61,7 @@ export class AddProductComponent implements OnInit {
   imagesUploaded: string[] = [];
   canAddChips: boolean = false;
   thumbnail: any = {};
+  uploadedThumb: string = '';
 
   selectEvent(file: File): void {
     this._loadingService.register('overlayStarSyntax');
@@ -69,11 +70,14 @@ export class AddProductComponent implements OnInit {
     this.imagesUploaded = [];
     this.ng2ImgToolsService.resizeExactCrop([file], 180, 180).subscribe(result => {
         //all good, result is a file
-        this._loadingService.resolve('overlayStarSyntax');
         this.thumbnail = result;
         this.fileSelectMsg2 = result.name;
-        console.info(file);
         console.info(result);
+        this.data.uploadImage(this.thumbnail).then(_response => {
+          this.uploadedThumb = _response;
+          this._loadingService.resolve('overlayStarSyntax');
+          console.info(_response);
+        });
     }, error => {
         this.cancelEvent();
         this.failed("Thumbnail Creation Failed", "Please try select your image again");
@@ -100,17 +104,19 @@ export class AddProductComponent implements OnInit {
   // }
 
   next() {
-    if(this.fileSelectMsg !== '' && this.fileSelectMsg2 !== '') {
+    if(this.fileSelectMsg !== '' && this.uploadedThumb !== '') {
       this._loadingService.register('overlayStarSyntax');
       let flag = this.checkData();
       if(flag) {
         this.uploading = true;
         this.fileUploading = "Uploading now, please wait.";
-        this.data.uploadImage(this.uploadImg).then(response => {
-          this.data.uploadImage(this.thumbnail).then(_response => {
-            console.log(response, _response);
+        console.log(this.uploadedThumb);
+          this.data.uploadImage(this.uploadImg).then(response => {
+            // console.log(_response);
+            // console.log(_response);
             let arr = [];
-            arr.push(_response);
+            // arr.push(_response);
+            arr.push(this.uploadedThumb);
             arr.push(response);
             this.imagesUploaded = arr;
             let product = this.product;
@@ -138,7 +144,7 @@ export class AddProductComponent implements OnInit {
                 this.failed("Product creation failed", "Unknown error, empty response");
               }
             })
-          })
+          // })
         }).catch(ex => {
           this.failed("Product creation failed", ex);
           console.log(ex);
@@ -198,6 +204,7 @@ export class AddProductComponent implements OnInit {
     this.collectionsModel = [];
     this.price1 = {};
     this.price2 = {};
+    this.uploadedThumb = '';
 
   }
 
