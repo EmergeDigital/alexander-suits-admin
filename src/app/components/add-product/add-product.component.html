@@ -180,6 +180,10 @@
           <input matInput type="number" name="stock" value=""  placeholder="Current Stock (m)"  [(ngModel)]="product.estimated_stock_remaining" >
         </mat-form-field>
 
+        <mat-form-field class="p-full-width">
+          <input matInput name="supplier_name" value=""  placeholder="Supplier Name"  [(ngModel)]="product.supplier_name" >
+        </mat-form-field>
+
         <div style="text-align: left;">
           <p>Main Image: {{fileUploading}}</p>
           <!-- <p *ngIf="fileSelectMsg">
