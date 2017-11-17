@@ -186,6 +186,7 @@ export class AddProductComponent implements OnInit {
   }
 
   clearData() {
+    // this.isLoading = true;
     this.uploading = false;
     this.fileUploading = "";
     this.fileSelectMsg = "";
@@ -205,6 +206,10 @@ export class AddProductComponent implements OnInit {
     this.price1 = {};
     this.price2 = {};
     this.uploadedThumb = '';
+    this.colourAddition = true;
+    // setTimeout(()=> {
+    //   this.isLoading = false;
+    // }, 1);
 
   }
 
