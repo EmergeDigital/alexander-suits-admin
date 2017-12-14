@@ -149,6 +149,35 @@ export class DataService {
       });
     }
 
+    getProduct(product_SKU): Promise<any> {
+      return new Promise((resolve, reject) => {
+        let params = {
+          product_SKU: product_SKU
+        };
+        this.authHttp.get(this.API_URL + "/api/product", {params: params}).toPromise().then(product => {
+            const _product = product.json();
+            resolve(_product);
+        }).catch(ex => {
+            reject(ex);
+        });
+      });
+    }
+    
+    updateProduct(product_SKU, product): Promise<any> {
+      return new Promise((resolve, reject) => {
+        let body = {
+          product_SKU: product_SKU,
+          product: product
+        };
+        this.authHttp.post(this.API_URL + "/api/products/update", body).toPromise().then(product => {
+            const _product = product.json();
+            resolve(_product);
+        }).catch(ex => {
+            reject(ex);
+        });
+      });
+    }
+
 
     /* ==============  CARTS  ============== */
 

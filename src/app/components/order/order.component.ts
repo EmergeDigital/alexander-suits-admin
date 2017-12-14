@@ -36,55 +36,55 @@ export class OrderComponent implements OnInit {
           type: LoadingType.Linear,
           color: 'primary',
         });
+        this.isLoading = true;
+        this.sub = this.route.params.subscribe(params => {
+           this.id = params['id'];
+     
+           this.data.getOrderById(this.id).then(order=> {
+             this.order = order;
+             // if(!!order.user_data.other_data) {
+             //   this.measurements = order.user_data.other_data.measurements;
+             // } else {
+               this.measurements = {
+                 height: '123',
+                 chest: "133",
+                 halfback: "12",
+                 biceps: '124',
+                 stomach: "2312",
+                 seat: "312",
+                 thigh: '354',
+                 halfwaist: '213',
+                 backlength: '111',
+                 waist: '123',
+                 outside_seamline: '444',
+                 inside_seamline: '3123',
+                 body_type: {img: "assets/measurements/1-slender.png", id: 0, title: "Slender", desc: "blah blah youre skinny etc"},
+                 uploadedImg: 'http://res.cloudinary.com/dhb9izfva/image/upload/v1509016644/man_ncy2v4.jpg'
+               };
+             // }
+             console.log(order);
+             let products = order.products;
+             let pendingProducts = this.getWidgets(products.filter(x => x.status === 'unassigned' || x.status === undefined || x.status === null), 'unassigned');
+             let mProducts = this.getWidgets(products.filter(x => x.status === 'mauritius'), 'mauritius');
+             let pProducts = this.getWidgets(products.filter(x => x.status === 'in_shop'), 'in_shop');
+             let readyProducts = this.getWidgets(products.filter(x => x.status === 'ready'), 'ready');
+     
+             this.containers = [
+               new Container(0, 'Unassigned', 'unassigned', "panel-warning", pendingProducts),
+               new Container(1, 'Mauritius', 'mauritius', "panel-info", mProducts),
+               new Container(1, 'In Shop', 'in_shop', "panel-info", pProducts),
+               new Container(2, 'Ready for Shipping', 'ready', "panel-success", readyProducts)
+             ];
+             Observable.interval(1000 * 2).subscribe(x => {
+               this.checkStatuses();
+             });
+             this.isLoading = false;
+           });
+           // Fetch order from API
+        });
       }
 
   ngOnInit() {
-   this.isLoading = true;
-   this.sub = this.route.params.subscribe(params => {
-      this.id = params['id'];
-
-      this.data.getOrderById(this.id).then(order=> {
-        this.order = order;
-        // if(!!order.user_data.other_data) {
-        //   this.measurements = order.user_data.other_data.measurements;
-        // } else {
-          this.measurements = {
-            height: '123',
-            chest: "133",
-            halfback: "12",
-            biceps: '124',
-            stomach: "2312",
-            seat: "312",
-            thigh: '354',
-            halfwaist: '213',
-            backlength: '111',
-            waist: '123',
-            outside_seamline: '444',
-            inside_seamline: '3123',
-            body_type: {img: "assets/measurements/1-slender.png", id: 0, title: "Slender", desc: "blah blah youre skinny etc"},
-            uploadedImg: 'http://res.cloudinary.com/dhb9izfva/image/upload/v1509016644/man_ncy2v4.jpg'
-          };
-        // }
-        console.log(order);
-        let products = order.products;
-        let pendingProducts = this.getWidgets(products.filter(x => x.status === 'unassigned' || x.status === undefined || x.status === null), 'unassigned');
-        let mProducts = this.getWidgets(products.filter(x => x.status === 'mauritius'), 'mauritius');
-        let pProducts = this.getWidgets(products.filter(x => x.status === 'in_shop'), 'in_shop');
-        let readyProducts = this.getWidgets(products.filter(x => x.status === 'ready'), 'ready');
-
-        this.containers = [
-          new Container(0, 'Unassigned', 'unassigned', "panel-warning", pendingProducts),
-          new Container(1, 'Mauritius', 'mauritius', "panel-info", mProducts),
-          new Container(1, 'In Shop', 'in_shop', "panel-info", pProducts),
-          new Container(2, 'Ready for Shipping', 'ready', "panel-success", readyProducts)
-        ];
-        Observable.interval(1000 * 2).subscribe(x => {
-          this.checkStatuses();
-        });
-        this.isLoading = false;
-      });
-      // Fetch order from API
-   });
  }
 
  checkStatuses() {

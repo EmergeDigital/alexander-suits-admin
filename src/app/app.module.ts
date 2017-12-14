@@ -49,6 +49,7 @@ import { UsersComponent } from './components/users/users.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { OrderComponent } from './components/order/order.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -71,7 +72,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         AddProductComponent,
         TransactionsComponent,
         MakeEnglish,
-        OrderComponent
+        OrderComponent,
+        EditProductComponent
     ],
     imports: [
         BrowserModule,
