@@ -14,10 +14,11 @@ const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(2);
 export class ProductsComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
+    { name: 'image',  label: 'Fabric', sortable: true, width: 200 },
     { name: 'name',  label: 'Product Name', sortable: true, width: 200 },
+    { name: 'article_number',  label: 'Article Number', sortable: true, width: 200 },
     { name: 'description', label: 'Description', filter: true, width: 200  },
     { name: 'category', label: 'Category', filter: true, sortable: true, hidden: false },
-    { name: 'id', label: 'ID'},
     { name: 'price', label: 'Price (ZAR)', numeric: true, format: DECIMAL_FORMAT, sortable: true },
     { name: 'edit', label: '', sortable: false, filter: false},
   ];
@@ -56,6 +57,7 @@ export class ProductsComponent implements OnInit {
 
   editProduct(row) {
     console.log(row);
+    // this.router.navigate('order', )
    }
 
   sort(sortEvent: ITdDataTableSortChangeEvent): void {

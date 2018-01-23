@@ -2,7 +2,7 @@
   <div class="card-lg" *ngIf="!loading">
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
       <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
-        <span class="md-title">All Products</span>
+        <span class="md-title">All Fabrics</span>
       </span>
       <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
         <span *ngIf="(selectable && !selectedRows.length) || !selectable" class="md-title"></span>
@@ -24,8 +24,11 @@
       [(ngModel)]="selectedRows"
       [sortOrder]="sortOrder"
       (sortChange)="sort($event)">
+      <ng-template tdDataTableTemplate="image" let-value="value" let-row="row" let-column="column" style="text-align: center;">
+          <a href="{{row.image_urls[1]}}" target="_blank"><img src="{{row.image_urls[0]}}" style="width: 100%; height: auto; max-width: 60px;"></a>
+      </ng-template>
       <ng-template tdDataTableTemplate="edit" let-value="value" let-row="row" let-column="column" style="text-align: center;">
-          <button mat-button color="primary" [routerLink]="['/product', row.product_SKU]">{{'Edit Product'}}</button>
+          <button mat-button color="primary" [routerLink]="['/fabric', row.product_SKU]">{{'Edit Fabric'}}</button>
       </ng-template>
     </td-data-table>
     <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">

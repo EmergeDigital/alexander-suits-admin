@@ -39,7 +39,7 @@ const routes: Routes = [
                 component: HomeComponent   // {3}
             },
             {
-                path: 'products',
+                path: 'fabrics',
                 component: ProductsComponent   // {3}
             },
             {
@@ -51,7 +51,7 @@ const routes: Routes = [
                 component: UsersComponent   // {3}
             },
             {
-                path: 'add-product',
+                path: 'add-fabric',
                 component: AddProductComponent   // {3}
             },
             {
@@ -59,7 +59,7 @@ const routes: Routes = [
                 component: OrderComponent
             },
             {
-                path: 'product/:id',
+                path: 'fabric/:id',
                 component: EditProductComponent
             },
         ]
