@@ -50,6 +50,9 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { OrderComponent } from './components/order/order.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { LiningsComponent } from './components/linings/linings.component';
+import { EditLiningComponent } from './components/linings/edit-linings/edit-lining.component';
+import { AddLiningComponent } from './components/linings/add-linings/add-lining.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -73,7 +76,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         TransactionsComponent,
         MakeEnglish,
         OrderComponent,
-        EditProductComponent
+        EditProductComponent,
+        LiningsComponent,
+        AddLiningComponent,
+        EditLiningComponent,
     ],
     imports: [
         BrowserModule,

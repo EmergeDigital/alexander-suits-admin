@@ -1,0 +1,52 @@
+<div class="container-fluid animated fadeIn" style="padding: 40px;">
+    <div class="card-lg" *ngIf="!loading">
+      <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+        <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+          <span class="md-title">All Linings</span>
+        </span>
+        <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+          <span *ngIf="(selectable && !selectedRows.length) || !selectable" class="md-title"></span>
+          <span *ngIf="selectedRows.length && selectable" class="md-body-1">{{selectedRows.length}} item(s) selected</span>
+        </span>
+        <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here" (searchDebounce)="search($event)" flex>
+        </td-search-box>
+      </div>
+      <mat-divider></mat-divider>
+      <td-data-table
+        #dataTable
+        [data]="filteredData"
+        [columns]="columns"
+        [selectable]="selectable"
+        [clickable]="clickable"
+        [multiple]="multiple"
+        [sortable]="true"
+        [sortBy]="sortBy"
+        [(ngModel)]="selectedRows"
+        [sortOrder]="sortOrder"
+        (sortChange)="sort($event)">
+        <ng-template tdDataTableTemplate="image" let-value="value" let-row="row" let-column="column" style="text-align: center;">
+            <a href="{{row.image_urls[1]}}" target="_blank"><img src="{{row.image_urls[0]}}" style="width: 100%; height: auto; max-width: 60px;"></a>
+        </ng-template>
+        <ng-template tdDataTableTemplate="edit" let-value="value" let-row="row" let-column="column" style="text-align: center;">
+            <button mat-button color="primary" [routerLink]="['/lining', row.lining_SKU]">{{'Edit Lining'}}</button>
+        </ng-template>
+      </td-data-table>
+      <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+        <h3>No results to display.</h3>
+      </div>
+      <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+        <span hide-xs>Rows per page:</span>
+        <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+          <mat-option *ngFor="let size of [5,10,15,20]" [value]="size">
+            {{size}}
+          </mat-option>
+        </mat-select>
+        {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+      </td-paging-bar>
+    </div>
+  
+    <div class="loading" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  

@@ -14,6 +14,9 @@ import {LoginLayoutComponent} from "./layouts/login-layout/login-layout.componen
 import {HomeLayoutComponent} from "./layouts/home-layout/home-layout.component";
 import { OrderComponent } from './components/order/order.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { EditLiningComponent } from './components/linings/edit-linings/edit-lining.component';
+import { AddLiningComponent } from './components/linings/add-linings/add-lining.component';
+import { LiningsComponent } from './components/linings/linings.component';
 
 const routes: Routes = [
 
@@ -61,6 +64,18 @@ const routes: Routes = [
             {
                 path: 'fabric/:id',
                 component: EditProductComponent
+            },
+            {
+                path: 'linings',
+                component: LiningsComponent
+            },
+            {
+                path: 'add-lining',
+                component: AddLiningComponent
+            },
+            {
+                path: 'lining/:id',
+                component: EditLiningComponent
             },
         ]
     },

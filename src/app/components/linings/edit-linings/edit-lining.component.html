@@ -1,0 +1,83 @@
+<div class="container-fluid animated fadeIn" *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'primary'">
+    <div class="lining-add-container" [hidden]="isLoading">
+      <h1>Edit Fabric</h1>
+      <div class="lining-add-form">
+        <form class="s-form">
+          <hr>
+          <p>Basic Fabric Details</p>
+          <mat-form-field class="p-full-width">
+            <input matInput placeholder="Article Number" value="" [(ngModel)]="lining.article_number" name="an">
+          </mat-form-field>
+          <mat-form-field class="p-full-width">
+            <input matInput placeholder="Colour Number" value="" [(ngModel)]="lining.colour_number" name="cn">
+          </mat-form-field>
+          <mat-form-field class="p-full-width">
+            <input matInput placeholder="Lining Name" value="" [(ngModel)]="lining.name" name="name">
+          </mat-form-field>
+  
+          <br><hr>
+          <p>Additional Information</p>
+  
+          <td-chips [chipAddition]="colourAddition"
+            name="colour1"
+            color="primary"
+            [chipRemoval]="chipRemoval"
+            [items]="filteredColours"
+            (add)="colourAdded()"
+            (remove)="colourRemoved()"
+            [(ngModel)]="selectedColours"
+            placeholder="Enter Primary Colour"
+            [disabled]="disabled"
+            (inputChange)="filterColours($event)">
+          </td-chips>
+          <div *ngIf="!colourAddition" style="border-bottom: 1px solid #919191"></div>
+  
+          <br><hr>
+          <p>Descriptions</p>
+  
+          <mat-form-field class="p-full-width">
+            <textarea matInput placeholder="Description Short" [(ngModel)]="lining.description" name="ds">{{lining.description}}</textarea>
+          </mat-form-field>
+          
+          <mat-form-field class="p-full-width">
+            <textarea matInput placeholder="Description Long" [(ngModel)]="lining.description_long" name="dl">{{lining.description_long}}</textarea>
+          </mat-form-field>
+  
+          <hr>
+          <p>Prices and Images</p>
+          
+          <mat-form-field class="p-full-width">
+            <span matPrefix><b>ZAR &nbsp;</b></span>
+            <input matInput type="number" name="price" value=""  [(ngModel)]="lining.price" placeholder="Price">
+          </mat-form-field>
+  
+          <mat-form-field class="p-full-width">
+            <input matInput type="number" name="stock" value=""  placeholder="Current Stock (m)"  [(ngModel)]="lining.estimated_stock_remaining" >
+          </mat-form-field>
+  
+          <mat-form-field class="p-full-width">
+            <input matInput name="supplier_name" value=""  placeholder="Supplier Name"  [(ngModel)]="lining.supplier_name" >
+          </mat-form-field>
+  
+          <div style="text-align: left;">
+            <p>Main Image: {{fileUploading}}</p>
+            <img src="{{lining.image_urls ? lining.image_urls[0] : ''}}" style="width: 100%; height: auto; max-width: 300px;"><br><br>
+            <td-file-upload accept=".jpg, .png, .jpeg" defaultColor="primary" activeColor="warn" cancelColor="primary" #singleFileUpload
+            (select)="fileUploadSelect($event)" (cancel)="fileUploadCancel()"  [(disabled)]="uploading" >
+              <mat-icon>file_upload</mat-icon><span>1 file selected</span>
+              <ng-template td-file-input-label>
+                <mat-icon>attach_file</mat-icon><span>Choose a file...</span>
+              </ng-template>
+            </td-file-upload>
+          </div>
+        </form><hr>
+        <div class="p-button">
+          <button mat-raised-button color="primary" (click)="updateLining()" style="background-color: #232323">Update Lining</button>
+        </div>
+      </div>
+    </div>
+    <div class="loading" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  
