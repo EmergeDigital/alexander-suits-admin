@@ -43,6 +43,11 @@ export class EditLiningComponent implements OnInit {
     "Black",
   ];
 
+  private printsMock: string[] = [
+    "Other",
+    "Plain"
+  ];
+
   private id: string = "";
   private lining: any = {};
   private isLoading: boolean = false;

@@ -42,6 +42,11 @@ export class AddLiningComponent implements OnInit {
     "Black",
   ];
 
+  private printsMock: string[] = [
+    "Other",
+    "Plain"
+  ];
+
   private lining: any = {};
 
   private filteredColours: string[] = [];

@@ -17,6 +17,15 @@
   
           <br><hr>
           <p>Additional Information</p>
+
+          <div style="padding-top: 5px">
+            <mat-form-field class="p-full-width">
+              <mat-select placeholder="Print" class="p-full-width" [(ngModel)]="lining.print" name="print">
+                <mat-option *ngFor="let print of printsMock" [value]="print">
+                  {{ print }}
+                </mat-option>
+            </mat-select></mat-form-field>
+          </div>
   
           <td-chips [chipAddition]="colourAddition"
             name="colour1"

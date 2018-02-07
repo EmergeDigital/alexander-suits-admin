@@ -2,6 +2,7 @@ export class Lining {
 
     name: string;
     description: string;
+    print: string;
     price: number;
     image_urls: string[];
     lining_SKU: string;
